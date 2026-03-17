@@ -6,7 +6,8 @@ export default {
         container: {
             center: true,
             padding: "2rem",
-            screens: { "2xl": "640px" },
+            maxWidth: "600px",
+            screens: { "2xl": "600px" },
         },
         extend: {
             fontFamily: {
@@ -63,5 +64,4 @@ export default {
             },
         },
     },
-    plugins: [require("tailwindcss-animate")],
 } satisfies Config;

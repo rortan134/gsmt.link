@@ -12,16 +12,17 @@ import { dayjs } from "@/app/lib/dayjs";
 import { formatCompactNumber } from "@/app/lib/format";
 import { getPageViewCount, UpdateServerViewCounter } from "@/app/lib/views";
 import { Link } from "@/i18n/routing";
+import { TextHighlighter } from "@components/text-highlighter";
 import {
     ArrowUpRight,
     Braces,
-    BrainCircuit,
     Check,
     Clipboard,
     Eye,
     Github,
     Globe,
     Mail,
+    TicketsPlane,
     Twitter,
     Watch,
 } from "lucide-react";
@@ -32,34 +33,38 @@ export const metadata: Metadata = {
     title: "Gilbert",
 };
 
-async function PageViews() {
+async function PageViewsCounter() {
     const pageViewCount = await getPageViewCount();
 
     return (
         <span
             className={cn(
-                "relative inline-flex items-center whitespace-nowrap font-serif text-muted-foreground/80 text-xs",
-                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100"
+                "relative inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
+                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100",
             )}
             data-full-count={pageViewCount.toString()}
         >
             <Eye aria-hidden className="mr-1 size-4" focusable="false" />
-            <span className="sr-only">Views</span>
+            <span className="sr-only">Page Views</span>
             {formatCompactNumber(pageViewCount)} page views
         </span>
     );
 }
 
-function PageViewsFallback() {
+function PageViewsCounterFallback() {
     return (
         <span
             className={cn(
-                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground/80 text-xs"
+                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
             )}
         >
             <Eye aria-hidden className="mr-1 size-4" focusable="false" />
-            <span className="sr-only">Views</span>
-            Loading...
+            <span className="sr-only">Page Views</span>
+            <span className="relative">
+                00.0k
+                <span className="absolute inset-0 z-10 animate-pulse rounded-md bg-gray-100" />
+            </span>
+            &nbsp;page views
         </span>
     );
 }
@@ -68,7 +73,7 @@ export default function HomePage() {
     return (
         <PageShell>
             <Header />
-            <section className="container relative mt-16 flex w-full items-center justify-between">
+            <section className="container relative mt-18 flex w-full items-center justify-between">
                 <Line className="-top-20 left-5" variant="vertical" />
                 <Line className="-top-20 right-6" variant="vertical" />
                 <Line className="-top-20 right-14" variant="vertical" />
@@ -80,7 +85,7 @@ export default function HomePage() {
                     <h1 className="whitespace-nowrap font-medium font-serif text-foreground text-sm">
                         Gilbert
                     </h1>
-                    <span className="whitespace-pre-wrap font-serif text-muted-foreground text-xs">
+                    <span className="whitespace-pre-wrap font-serif text-foreground text-xs">
                         <span className="mr-0.5 opacity-60">IPA</span>&nbsp;
                         <i className="mr-0.5">/ˈɡɪlbət/</i> —&nbsp;software
                         developer, <span className="opacity-60">maker.</span>
@@ -89,68 +94,14 @@ export default function HomePage() {
                 </div>
                 <div className="relative flex items-end justify-end gap-3 md:gap-4">
                     <Line className="-top-20 -left-2" variant="vertical" />
-                    <React.Suspense fallback={<PageViewsFallback />}>
-                        <PageViews />
+                    <React.Suspense fallback={<PageViewsCounterFallback />}>
+                        <PageViewsCounter />
                     </React.Suspense>
                     <LiveCount />
                 </div>
                 <Line className="-bottom-1.5" />
             </section>
-            <section className="container mt-12 flex flex-col space-y-4">
-                <div className="flex items-center justify-between">
-                    <h1 className="w-full flex-1 truncate font-semibold text-foreground text-sm">
-                        Today
-                        <span className="ml-3 inline-block font-serif opacity-50">
-                            {dayjs().format("DD")}
-                        </span>
-                    </h1>
-                    <div className="flex items-center justify-end space-x-3">
-                        <S2 />
-                    </div>
-                </div>
-                <p className="text-foreground text-sm">
-                    Developer at heart, passionate about building a better web,
-                    creating great experiences for end users, and trying to
-                    solve real-world{" "}
-                    <Globe
-                        aria-hidden
-                        className="inline-block size-4 opacity-50"
-                        focusable="false"
-                    />{" "}
-                    problems with an eye for design. I&apos;m also a fan of
-                    open-source software, and cool looking watches{" "}
-                    <Watch
-                        aria-hidden
-                        className="inline-block size-4 opacity-50"
-                        focusable="false"
-                    />
-                    .
-                    <br />
-                    <br />
-                    Introduced to technology at a young age, I have been
-                    building software for over 3 years now. Playing with
-                    prototypes and doing everything from data scrapers{" "}
-                    <Braces
-                        aria-hidden
-                        className="inline-block size-4 opacity-50"
-                        focusable="false"
-                    />
-                    , dynamic websites and APIs, charmful native applications,
-                    fractal simulations, data visualizations and more.
-                    <br />
-                    <br />
-                    Outside of programming, I enjoy doing photography and
-                    traveling. Currently studying computer science and always
-                    looking for new ways tech can make a positive impact on
-                    people and consistently improve through learning. I have
-                    been particularly interested in using ML{" "}
-                    <BrainCircuit
-                        aria-hidden
-                        className="inline-block size-4 opacity-50"
-                        focusable="false"
-                    />{" "}
-                    to create more personalized and engaging in-app experiences.
-                </p>
+            <section className="container mt-4.5">
                 <div className="group flex flex-col items-center gap-3 md:flex-row">
                     <div className="relative flex h-fit w-full items-center md:w-fit">
                         <Link
@@ -213,11 +164,81 @@ export default function HomePage() {
                     </Link>
                 </div>
             </section>
+            <section className="container mt-16 flex flex-col space-y-4">
+                <div className="flex items-center justify-between">
+                    <h1 className="flex-1 truncate font-semibold text-muted-foreground text-xs">
+                        Today
+                        <span className="ml-3 inline-block font-serif opacity-50">
+                            {dayjs().format("MMMM DD")}
+                        </span>
+                    </h1>
+                    <div className="flex items-center justify-end space-x-3">
+                        <S2 />
+                    </div>
+                </div>
+                <p className="text-foreground text-sm">
+                    Developer at heart, passionate about building a better web,{" "}
+                    <TextHighlighter highlightColor="#FEFE6B">
+                        creating great experiences
+                    </TextHighlighter>{" "}
+                    for end users, and trying to solve real-world{" "}
+                    <Globe
+                        aria-hidden
+                        className="inline-block size-4 opacity-50"
+                        focusable="false"
+                    />{" "}
+                    problems with{" "}
+                    <TextHighlighter delay={2} highlightColor="#FEFE6B">
+                        an eye for design
+                    </TextHighlighter>
+                    . I&apos;m also a fan of open-source software, and cool
+                    looking watches{" "}
+                    <Watch
+                        aria-hidden
+                        className="inline-block size-4 opacity-50"
+                        focusable="false"
+                    />
+                    .
+                    <br />
+                    <br />
+                    Introduced to technology at a young age, I have been{" "}
+                    <TextHighlighter delay={3} highlightColor="#FEFE6B">
+                        building software for over 3 years
+                    </TextHighlighter>{" "}
+                    now. Playing with prototypes and doing everything from data
+                    scrapers{" "}
+                    <Braces
+                        aria-hidden
+                        className="inline-block size-4 opacity-50"
+                        focusable="false"
+                    />
+                    , dynamic websites and APIs, charmful native applications,
+                    fractal simulations, data visualizations, engaging in-app
+                    experiences and more. Outside of programming, I enjoy doing
+                    photography and traveling{" "}
+                    <TicketsPlane
+                        aria-hidden
+                        className="inline-block size-4 opacity-50"
+                        focusable="false"
+                    />
+                    .
+                </p>
+                <hr className="my-2 border-border" />
+                <h1 className="mt-3 flex-1 truncate font-semibold text-muted-foreground text-xs">
+                    Why me?
+                </h1>
+                <p className="text-foreground text-sm">
+                    A senior designer costs you $150K+ before benefits,
+                    equipment, and management overhead, and you still only get
+                    one skill set. With me, you get a designer, a developer, a
+                    strategist, and a creative director for less than a single
+                    hire. Little onboarding, minimal ramp-up.
+                </p>
+            </section>
             <section className="container mt-24">
                 <Projects />
                 <p className="mt-4 text-muted-foreground text-sm">
-                    My focus these days is mainly on the web ecosystem, but I
-                    have worked with many languages and platforms.
+                    My focus these days is mainly on the web ecosystem.
                 </p>
             </section>
             <Timezone />

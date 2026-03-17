@@ -24,6 +24,8 @@ interface TextHighlighterProps extends React.ComponentProps<"div"> {
      */
     as?: ElementType;
 
+    delay?: number;
+
     /**
      * Direction of the highlight animation
      * @default "ltr" (left to right)
@@ -57,7 +59,7 @@ const TextHighlighter = ({
     children,
     as = "span",
     triggerType = "inView",
-    transition = { type: "spring", duration: 1, delay: 0, bounce: 0 },
+    transition = { type: "spring", duration: 1, delay: 1, bounce: 0 },
     useInViewOptions = {
         once: true,
         initial: false,
@@ -67,6 +69,7 @@ const TextHighlighter = ({
     highlightColor = "hsl(25, 90%, 80%)",
     direction = "ltr",
     ref,
+    delay = 1,
     ...props
 }: TextHighlighterProps) => {
     const componentRef = useRef<HTMLDivElement>(null);
@@ -164,12 +167,15 @@ const TextHighlighter = ({
                 animate={{
                     backgroundSize: animatedSize,
                 }}
-                className={cn("inline", className)}
+                className={cn("inline rounded-[0.3em] px-px", className)}
                 initial={{
                     backgroundSize: initialSize,
                 }}
                 style={highlightStyle}
-                transition={transition}
+                transition={{
+                    ...transition,
+                    delay,
+                }}
             >
                 {children}
             </motion.span>
