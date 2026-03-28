@@ -1,5 +1,6 @@
 import { Scene } from "@/app/components/rocket-scene";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
     description: "Real-time rocket with procedural fire shader",
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 export default function RocketPage() {
     return (
         <main className="fixed inset-0 z-10 bg-neutral-950">
-            <Scene />
+            <Suspense>
+                <Scene />
+            </Suspense>
         </main>
     );
 }
