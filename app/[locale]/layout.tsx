@@ -1,6 +1,7 @@
 import { GTProvider } from "gt-next";
 import type { Metadata } from "next";
 import type * as React from "react";
+import { Suspense } from "react";
 
 const WEBSITE_URL = "https://gsmt.link";
 
@@ -22,7 +23,11 @@ export const metadata: Metadata = {
 };
 
 function LocaleLayout({ children }: React.PropsWithChildren) {
-    return <GTProvider>{children}</GTProvider>;
+    return (
+        <Suspense fallback={null}>
+            <GTProvider>{children}</GTProvider>
+        </Suspense>
+    );
 }
 
 export default LocaleLayout;
