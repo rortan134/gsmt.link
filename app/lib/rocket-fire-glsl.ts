@@ -17,13 +17,13 @@ uniform float uTurbulenceFactor;
 
 varying vec3 vLocalPosition;
 
-const float cRadianceScale = 0.3;
+const float cRadianceScale = 0.45;
 
-const float cVolumeDensityScale = 1.0;
+const float cVolumeDensityScale = 2.0;
 
-const float cAlphaAbsorption = 3.2;
+const float cAlphaAbsorption = 0.9;
 
-const int MARCH_STEPS = 128;
+const int MARCH_STEPS = 64;
 
 float saturate(float value) {
 	return clamp(value, 0.0, 1.0);

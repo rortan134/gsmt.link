@@ -1,50 +1,94 @@
 "use client";
 
 import { ROCKET_FIRE_FRAGMENT_SHADER } from "@lib/rocket-fire-glsl";
-import { Bounds, OrbitControls, useGLTF } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Bounds, OrbitControls, useBounds, useGLTF } from "@react-three/drei";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as React from "react";
 import * as THREE from "three";
+import { Pane } from "tweakpane";
 
 const GLTF_PATH = "/models/rocket-fire.gltf";
+const leadingLinear = new THREE.Color("#406EFF");
+const trailingLinear = new THREE.Color("#FE5F1E");
+const throttleDefault: number = 1;
 
-const fireLeadingLinear = new THREE.Color("#406EFF");
-const fireTrailingLinear = new THREE.Color("#FE5F1E");
-
-interface FireEntry {
+interface Entry {
     cameraLocal: THREE.Vector3;
     material: THREE.RawShaderMaterial;
     mesh: THREE.Mesh;
 }
 
-interface RocketSceneSetup {
+interface SceneSetup {
     disposableMaterials: THREE.Material[];
-    fireEntries: FireEntry[];
+    entries: Entry[];
     root: THREE.Object3D;
 }
 
-const FIRE_DEFAULTS = {
+const DEFAULTS = {
     brightnessExponential: 1,
     brightnessMultiplier: 7,
     coneOffset: 2.27,
     cones: 3.059_999_942_779_541,
-    leadingColor: [
-        fireLeadingLinear.r,
-        fireLeadingLinear.g,
-        fireLeadingLinear.b,
-        1,
-    ],
-    throttle: 1,
-    trailingColor: [
-        fireTrailingLinear.r,
-        fireTrailingLinear.g,
-        fireTrailingLinear.b,
-        1,
-    ],
+    conesMax: 12,
+    conesMin: 0.25,
+    conesStep: 0.01,
+    leadingColor: [leadingLinear.r, leadingLinear.g, leadingLinear.b, 1],
+    throttle: throttleDefault,
+    throttleMax: 1,
+    throttleMin: 0,
+    throttleStep: 0.01,
+    trailingColor: [trailingLinear.r, trailingLinear.g, trailingLinear.b, 1],
     turbulenceFactor: 0.899_999_976_158_142_1,
 } as const;
 
-const FIRE_VERTEX_SHADER = /* glsl */ `
+interface RGB {
+    b: number;
+    g: number;
+    r: number;
+}
+
+interface DebugState {
+    cones: number;
+    leadingColor: RGB;
+    throttle: number;
+    trailingColor: RGB;
+}
+
+function createInitialDebugOptions(): DebugState {
+    return {
+        cones: DEFAULTS.cones,
+        leadingColor: {
+            b: DEFAULTS.leadingColor[2],
+            g: DEFAULTS.leadingColor[1],
+            r: DEFAULTS.leadingColor[0],
+        },
+        throttle: DEFAULTS.throttle,
+        trailingColor: {
+            b: DEFAULTS.trailingColor[2],
+            g: DEFAULTS.trailingColor[1],
+            r: DEFAULTS.trailingColor[0],
+        },
+    };
+}
+
+function cloneDebugOptions(state: DebugState): DebugState {
+    return {
+        cones: state.cones,
+        leadingColor: {
+            b: state.leadingColor.b,
+            g: state.leadingColor.g,
+            r: state.leadingColor.r,
+        },
+        throttle: state.throttle,
+        trailingColor: {
+            b: state.trailingColor.b,
+            g: state.trailingColor.g,
+            r: state.trailingColor.r,
+        },
+    };
+}
+
+const VERTEX_SHADER = /* glsl */ `
 precision highp float;
 
 uniform mat4 modelMatrix;
@@ -76,7 +120,49 @@ function jetAxisFromBounds(
     return new THREE.Vector3(0, 0, 1);
 }
 
-function createFireMaterial(bounds: THREE.Box3): THREE.RawShaderMaterial {
+function perpendicularCameraOffset(
+    boxSize: THREE.Vector3,
+    distance: number,
+): THREE.Vector3 {
+    const sx = boxSize.x;
+    const sy = boxSize.y;
+    const sz = boxSize.z;
+    if (sx >= sy && sx >= sz) {
+        return new THREE.Vector3(0, 0, distance);
+    }
+    if (sy >= sz) {
+        return new THREE.Vector3(0, 0, distance);
+    }
+    return new THREE.Vector3(distance, 0, 0);
+}
+
+function BoundsPerpendicularCamera() {
+    const bounds = useBounds();
+    const invalidate = useThree((s) => s.invalidate);
+
+    React.useLayoutEffect(() => {
+        if (!bounds) {
+            return;
+        }
+        bounds.refresh();
+        const { center, distance, size: boxSize } = bounds.getSize();
+        if (
+            boxSize.x <= Number.EPSILON &&
+            boxSize.y <= Number.EPSILON &&
+            boxSize.z <= Number.EPSILON
+        ) {
+            return;
+        }
+        const offset = perpendicularCameraOffset(boxSize, distance);
+        bounds.moveTo(center.clone().add(offset)).lookAt({ target: center });
+        bounds.clip();
+        invalidate();
+    }, [bounds, invalidate]);
+
+    return null;
+}
+
+function createMaterial(bounds: THREE.Box3): THREE.RawShaderMaterial {
     const boundsMax = bounds.max.clone();
     const boundsMin = bounds.min.clone();
 
@@ -93,28 +179,28 @@ function createFireMaterial(bounds: THREE.Box3): THREE.RawShaderMaterial {
             uBoundsMax: { value: boundsMax },
             uBoundsMin: { value: boundsMin },
             uBrightnessExponential: {
-                value: FIRE_DEFAULTS.brightnessExponential,
+                value: DEFAULTS.brightnessExponential,
             },
             uBrightnessMultiplier: {
-                value: FIRE_DEFAULTS.brightnessMultiplier,
+                value: DEFAULTS.brightnessMultiplier,
             },
             uCameraLocal: { value: new THREE.Vector3() },
-            uConeOffset: { value: FIRE_DEFAULTS.coneOffset },
-            uCones: { value: FIRE_DEFAULTS.cones },
+            uConeOffset: { value: DEFAULTS.coneOffset },
+            uCones: { value: DEFAULTS.cones },
             uJetAxis: { value: jetAxisFromBounds(boundsMin, boundsMax) },
             uLeadingColor: {
-                value: new THREE.Vector4(...FIRE_DEFAULTS.leadingColor),
+                value: new THREE.Vector4(...DEFAULTS.leadingColor),
             },
-            uThrottle: { value: FIRE_DEFAULTS.throttle },
+            uThrottle: { value: DEFAULTS.throttle },
             uTime: { value: 0 },
             uTrailingColor: {
-                value: new THREE.Vector4(...FIRE_DEFAULTS.trailingColor),
+                value: new THREE.Vector4(...DEFAULTS.trailingColor),
             },
             uTurbulenceFactor: {
-                value: FIRE_DEFAULTS.turbulenceFactor,
+                value: DEFAULTS.turbulenceFactor,
             },
         },
-        vertexShader: FIRE_VERTEX_SHADER,
+        vertexShader: VERTEX_SHADER,
     });
 }
 
@@ -150,7 +236,7 @@ function cloneMeshMaterials(root: THREE.Object3D): THREE.Material[] {
     return disposableMaterials;
 }
 
-function tuneRocketMaterials(root: THREE.Object3D) {
+function tuneMaterials(root: THREE.Object3D) {
     root.traverse((child) => {
         if (!(child instanceof THREE.Mesh)) {
             return;
@@ -194,11 +280,11 @@ function removeDisposableMaterial(
     }
 }
 
-function prepareFireEntries(
+function prepareEntries(
     root: THREE.Object3D,
     disposableMaterials: THREE.Material[],
-): FireEntry[] {
-    const entries: FireEntry[] = [];
+): Entry[] {
+    const entries: Entry[] = [];
 
     root.traverse((child) => {
         if (!(child instanceof THREE.Mesh)) {
@@ -222,10 +308,10 @@ function prepareFireEntries(
             removeDisposableMaterial(disposableMaterials, material);
         }
 
-        const nextMaterial = createFireMaterial(bounds);
+        const nextMaterial = createMaterial(bounds);
         const cameraLocal = nextMaterial.uniforms.uCameraLocal?.value;
         if (!(cameraLocal instanceof THREE.Vector3)) {
-            throw new Error("Rocket fire material missing uCameraLocal vec3");
+            throw new Error("Material missing uCameraLocal vec3");
         }
         child.material = nextMaterial;
         child.renderOrder = 2;
@@ -239,25 +325,129 @@ function prepareFireEntries(
     return entries;
 }
 
-function Model() {
+function DebugPanel(props: {
+    debug: DebugState;
+    onDebugChange: (next: DebugState) => void;
+}) {
+    const { debug, onDebugChange } = props;
+    const rootRef = React.useRef<HTMLDivElement>(null);
+    const paneRef = React.useRef<Pane | null>(null);
+    const paramsRef = React.useRef<DebugState>(createInitialDebugOptions());
+
+    const emitChange = React.useCallback(() => {
+        onDebugChange(cloneDebugOptions(paramsRef.current));
+    }, [onDebugChange]);
+
+    React.useEffect(() => {
+        const root = rootRef.current;
+        if (!root) {
+            return;
+        }
+        const pane = new Pane({
+            container: root,
+            title: "Scene",
+        });
+        paneRef.current = pane;
+        const p = paramsRef.current;
+        const colorOpts = { color: { type: "float" as const } };
+
+        pane.addBinding(p, "throttle", {
+            label: "Throttle",
+            max: DEFAULTS.throttleMax,
+            min: DEFAULTS.throttleMin,
+            step: DEFAULTS.throttleStep,
+        }).on("change", emitChange);
+
+        pane.addBinding(p, "leadingColor", {
+            ...colorOpts,
+            label: "Leading color",
+        }).on("change", emitChange);
+
+        pane.addBinding(p, "trailingColor", {
+            ...colorOpts,
+            label: "Trailing color",
+        }).on("change", emitChange);
+
+        pane.addBinding(p, "cones", {
+            label: "Cones",
+            max: DEFAULTS.conesMax,
+            min: DEFAULTS.conesMin,
+            step: DEFAULTS.conesStep,
+        }).on("change", emitChange);
+
+        return () => {
+            pane.dispose();
+            paneRef.current = null;
+        };
+    }, [emitChange]);
+
+    React.useEffect(() => {
+        const p = paramsRef.current;
+        p.throttle = debug.throttle;
+        p.cones = debug.cones;
+        p.leadingColor.r = debug.leadingColor.r;
+        p.leadingColor.g = debug.leadingColor.g;
+        p.leadingColor.b = debug.leadingColor.b;
+        p.trailingColor.r = debug.trailingColor.r;
+        p.trailingColor.g = debug.trailingColor.g;
+        p.trailingColor.b = debug.trailingColor.b;
+        paneRef.current?.refresh();
+    }, [debug]);
+
+    return (
+        <div
+            className="pointer-events-auto fixed top-3 right-3 z-1000 w-[min(18rem,calc(100vw-1.5rem))]"
+            ref={rootRef}
+        />
+    );
+}
+
+function Model(props: { debug: DebugState }) {
+    const { debug } = props;
     const gltf = useGLTF(GLTF_PATH);
 
-    const { disposableMaterials, fireEntries, root } =
-        React.useMemo<RocketSceneSetup>(() => {
+    const { disposableMaterials, entries, root } =
+        React.useMemo<SceneSetup>(() => {
             const cloned = gltf.scene.clone(true);
             const materials = cloneMeshMaterials(cloned);
-            tuneRocketMaterials(cloned);
+            tuneMaterials(cloned);
 
             return {
                 disposableMaterials: materials,
-                fireEntries: prepareFireEntries(cloned, materials),
+                entries: prepareEntries(cloned, materials),
                 root: cloned,
             };
         }, [gltf]);
 
+    React.useLayoutEffect(() => {
+        for (const entry of entries) {
+            const u = entry.material.uniforms;
+            u.uThrottle.value = debug.throttle;
+            u.uCones.value = debug.cones;
+            const lead = u.uLeadingColor.value;
+            const trail = u.uTrailingColor.value;
+            if (lead instanceof THREE.Vector4) {
+                lead.set(
+                    debug.leadingColor.r,
+                    debug.leadingColor.g,
+                    debug.leadingColor.b,
+                    1,
+                );
+            }
+            if (trail instanceof THREE.Vector4) {
+                trail.set(
+                    debug.trailingColor.r,
+                    debug.trailingColor.g,
+                    debug.trailingColor.b,
+                    1,
+                );
+            }
+        }
+    }, [entries, debug]);
+
     useFrame(({ camera, clock }) => {
         const t = clock.elapsedTime;
-        for (const entry of fireEntries) {
+        for (const entry of entries) {
             entry.cameraLocal.copy(camera.position);
             entry.mesh.worldToLocal(entry.cameraLocal);
             entry.material.uniforms.uTime.value = t;
@@ -269,11 +459,11 @@ function Model() {
             for (const material of disposableMaterials) {
                 material.dispose();
             }
-            for (const entry of fireEntries) {
+            for (const entry of entries) {
                 entry.material.dispose();
             }
         };
-    }, [disposableMaterials, fireEntries]);
+    }, [disposableMaterials, entries]);
 
     return <primitive object={root} />;
 }
@@ -281,14 +471,22 @@ function Model() {
 useGLTF.preload(GLTF_PATH);
 
 export function Scene() {
+    const [debug, setDebug] = React.useState<DebugState>(() =>
+        createInitialDebugOptions(),
+    );
+    const onDebugChange = React.useCallback((next: DebugState) => {
+        setDebug(next);
+    }, []);
+
     return (
         <div className="h-full min-h-dvh w-full">
+            <DebugPanel debug={debug} onDebugChange={onDebugChange} />
             <Canvas
                 camera={{
                     far: 100,
                     fov: 45,
                     near: 0.1,
-                    position: [1, 1, 1],
+                    position: [0, 0, 2],
                 }}
                 dpr={[1, 2]}
                 frameloop="always"
@@ -314,8 +512,9 @@ export function Scene() {
                     position={[0, 7, 2]}
                 />
                 <React.Suspense fallback={null}>
-                    <Bounds clip fit observe>
-                        <Model />
+                    <Bounds clip observe>
+                        <Model debug={debug} />
+                        <BoundsPerpendicularCamera />
                     </Bounds>
                 </React.Suspense>
                 <OrbitControls
