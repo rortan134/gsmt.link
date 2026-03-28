@@ -16,7 +16,7 @@ const Timezone = () => {
     React.useEffect(() => {
         const intervalId = window.setInterval(
             () => React.startTransition(() => forceRender((prev) => prev + 1)),
-            5000,
+            5000
         );
         return () => window.clearInterval(intervalId);
     }, []);

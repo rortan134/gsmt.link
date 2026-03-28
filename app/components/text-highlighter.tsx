@@ -18,7 +18,6 @@ export interface TextHighlighterHandle {
 
 interface TextHighlighterProps
     extends Omit<React.ComponentProps<"span">, "ref"> {
-    ref?: React.Ref<TextHighlighterHandle>;
     delay?: number;
 
     /**
@@ -32,6 +31,7 @@ interface TextHighlighterProps
      * @default 'hsl(60, 90%, 68%)' (yellow)
      */
     highlightColor?: string;
+    ref?: React.Ref<TextHighlighterHandle>;
 
     /**
      * Animation transition configuration
