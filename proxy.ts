@@ -1,11 +1,7 @@
-import createMiddleware from "next-intl/middleware";
+import { createNextMiddleware } from "gt-next/middleware";
 
-export default createMiddleware({
-    locales: ["en", "es"],
-    defaultLocale: "en",
-    localePrefix: "as-needed",
-});
+export default createNextMiddleware();
 
 export const config = {
-    matcher: ["/", "/(en|es)/:path*", "/((?!_next|_vercel|m|.*\\..*).*)"],
+    matcher: ["/((?!api|static|.*\\..*|_next).*)"],
 };

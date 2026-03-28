@@ -2,7 +2,7 @@
     "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
     "extends": ["ultracite/core", "ultracite/react", "ultracite/next"],
     "files": {
-        "includes": ["!**/public", "!**/messages", "!**/prisma/client"]
+        "includes": ["!**/public", "!**/prisma/client"]
     },
     "formatter": {
         "indentWidth": 4
@@ -23,7 +23,7 @@
             "source": {
                 "organizeImports": "off",
                 "useSortedAttributes": "on",
-                "useSortedKeys": "off"
+                "useSortedKeys": "on"
             }
         }
     },
@@ -35,8 +35,7 @@
     "linter": {
         "rules": {
             "performance": {
-                "noNamespaceImport": "off",
-                "noBarrelFile": "off"
+                "noNamespaceImport": "off"
             }
         }
     }

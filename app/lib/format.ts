@@ -3,7 +3,7 @@
  */
 const REG_PATTERN = /\.0$/;
 
-// TODO: Use next-intl formatter instead
+// TODO: Use intl formatter instead
 
 /**
  * Format a number with a suffix (k, M, B) for better readability
@@ -11,25 +11,19 @@ const REG_PATTERN = /\.0$/;
  * @returns Formatted string (e.g., 1000 -> 1k, 1000000 -> 1M)
  */
 export function formatCompactNumber(num: number | string): string {
-    // Handle non-numeric or undefined values
     if (num === undefined || num === null || num === "?") {
         return "?";
     }
 
-    // Convert to number if it's a string, preserving decimals
     const value = typeof num === "string" ? Number.parseFloat(num) : num;
-
-    // Handle NaN
     if (Number.isNaN(value)) {
         return "?";
     }
 
-    // Handle negative numbers by formatting the absolute value and adding the sign back
     const isNegative = value < 0;
     const absValue = Math.abs(value);
     let formattedValue: string;
 
-    // Format with appropriate suffix
     if (absValue >= 1_000_000_000) {
         formattedValue = `${(absValue / 1_000_000_000)
             .toFixed(1)

@@ -3,32 +3,30 @@
 import * as React from "react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import { Mousewheel, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const Carousel = ({ children }: React.PropsWithChildren) => (
     <Swiper
-        breakpoints={{
-            320: { slidesPerView: 1.09 },
-            768: { slidesPerView: 2.1 },
-        }}
-        className="overflow-visible! h-fit w-full"
+        className="overflow-visible! relative w-full"
         grabCursor
-        modules={[Pagination]}
+        modules={[Mousewheel, Navigation, Pagination]}
+        mousewheel={{ forceToAxis: true, sensitivity: 3 }}
         pagination={{
             bulletActiveClass: "text-white! bg-red-500! px-2!",
             bulletClass:
-                "transition-[padding] select-none text-muted-foreground px-1 py-1 w-9 h-9 flex items-center justify-center rounded-xl bg-card cursor-pointer font-medium",
+                "transition-[padding] select-none text-muted-foreground size-7 flex items-center justify-center text-xs rounded-lg bg-card cursor-pointer font-medium",
             clickable: true,
             el: ".swiper-pagination-container",
+            enabled: true,
             renderBullet: (index, className) =>
                 `<span class="${className}">${index + 1}</span>`,
         }}
-        slidesPerView={1.0001}
-        spaceBetween={16}
+        slidesPerView="auto"
+        spaceBetween={12}
     >
         {React.Children.map(children, (child) => (
-            <SwiperSlide className="relative h-auto! max-h-[565px] overflow-hidden rounded-3xl bg-card first:w-full!">
+            <SwiperSlide className="relative size-full max-w-xs overflow-hidden rounded-xl bg-card">
                 {child}
             </SwiperSlide>
         ))}

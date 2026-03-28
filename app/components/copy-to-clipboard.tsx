@@ -10,11 +10,11 @@ const CopyToClipboard = ({
 }: React.ComponentProps<typeof Slot> & { text: string }) => {
     const [copied, setCopied] = React.useState(false);
 
-    const copyHandler = React.useCallback(() => {
+    const copyHandler = () => {
         copy(text);
         setCopied(true);
         window.setTimeout(() => setCopied(false), 2000);
-    }, [text]);
+    };
 
     return <Slot data-copied={copied} onClick={copyHandler} {...props} />;
 };

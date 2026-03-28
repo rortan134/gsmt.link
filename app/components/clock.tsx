@@ -3,7 +3,7 @@
 import { dayjs } from "@/app/lib/dayjs";
 import * as React from "react";
 
-export const Clock = ({ timezone }: { timezone: string }) => {
+const Clock = ({ timezone }: { timezone: string }) => {
     const [time, setTime] = React.useState(() => dayjs().tz(timezone));
 
     React.useEffect(() => {
@@ -40,3 +40,5 @@ export const Clock = ({ timezone }: { timezone: string }) => {
         </div>
     );
 };
+
+export { Clock };

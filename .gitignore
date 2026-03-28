@@ -15,6 +15,7 @@
 # production
 /build
 prisma/client
+public/_gt/
 
 # misc
 .DS_Store

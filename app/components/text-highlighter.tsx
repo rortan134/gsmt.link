@@ -7,23 +7,18 @@ import {
     type Transition,
     type UseInViewOptions,
 } from "motion/react";
-import {
-    useEffect,
-    useImperativeHandle,
-    useRef,
-    useState,
-    type ElementType,
-} from "react";
+import { useEffect, useImperativeHandle, useRef, useState } from "react";
 
 type HighlightDirection = "ltr" | "rtl" | "ttb" | "btt";
 
-interface TextHighlighterProps extends React.ComponentProps<"div"> {
-    /**
-     * HTML element to render as
-     * @default "span"
-     */
-    as?: ElementType;
+export interface TextHighlighterHandle {
+    animate: (animationDirection?: HighlightDirection) => void;
+    reset: () => void;
+}
 
+interface TextHighlighterProps
+    extends Omit<React.ComponentProps<"span">, "ref"> {
+    ref?: React.Ref<TextHighlighterHandle>;
     delay?: number;
 
     /**
@@ -57,13 +52,12 @@ interface TextHighlighterProps extends React.ComponentProps<"div"> {
 
 const TextHighlighter = ({
     children,
-    as = "span",
     triggerType = "inView",
-    transition = { type: "spring", duration: 1, delay: 1, bounce: 0 },
+    transition = { bounce: 0, delay: 1, duration: 1, type: "spring" },
     useInViewOptions = {
-        once: true,
-        initial: false,
         amount: 0.1,
+        initial: false,
+        once: true,
     },
     className,
     highlightColor = "hsl(25, 90%, 80%)",
@@ -78,7 +72,7 @@ const TextHighlighter = ({
     const [currentDirection, setCurrentDirection] =
         useState<HighlightDirection>(direction);
 
-    // this allows us to change the direction whenever the direction prop changes
+    // change the direction whenever the direction prop changes
     useEffect(() => {
         setCurrentDirection(direction);
     }, [direction]);
@@ -86,7 +80,6 @@ const TextHighlighter = ({
     const isInView = useInView(componentRef, useInViewOptions);
 
     useImperativeHandle(ref, () => ({
-        // @ts-expect-error - todo: fix type
         animate: (animationDirection?: HighlightDirection) => {
             if (animationDirection) {
                 setCurrentDirection(animationDirection);
@@ -110,8 +103,6 @@ const TextHighlighter = ({
                 return false;
         }
     })();
-
-    const ElementTag = as || "span";
 
     const getBackgroundSize = (animated: boolean) => {
         switch (currentDirection) {
@@ -149,28 +140,26 @@ const TextHighlighter = ({
 
     const highlightStyle = {
         backgroundImage: `linear-gradient(${highlightColor}, ${highlightColor})`,
-        backgroundRepeat: "no-repeat",
         backgroundPosition,
+        backgroundRepeat: "no-repeat",
         backgroundSize: animatedSize,
         boxDecorationBreak: "clone",
         WebkitBoxDecorationBreak: "clone",
     } as React.CSSProperties;
 
     return (
-        <ElementTag
+        // biome-ignore lint/a11y/noStaticElementInteractions: temp
+        // biome-ignore lint/a11y/noNoninteractiveElementInteractions: temp
+        <span
             onMouseEnter={() => triggerType === "hover" && setIsHovered(true)}
             onMouseLeave={() => triggerType === "hover" && setIsHovered(false)}
             ref={componentRef}
             {...props}
         >
             <motion.span
-                animate={{
-                    backgroundSize: animatedSize,
-                }}
+                animate={{ backgroundSize: animatedSize }}
                 className={cn("inline rounded-[0.3em] px-px", className)}
-                initial={{
-                    backgroundSize: initialSize,
-                }}
+                initial={{ backgroundSize: initialSize }}
                 style={highlightStyle}
                 transition={{
                     ...transition,
@@ -179,7 +168,7 @@ const TextHighlighter = ({
             >
                 {children}
             </motion.span>
-        </ElementTag>
+        </span>
     );
 };
 

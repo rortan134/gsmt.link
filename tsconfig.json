@@ -16,10 +16,9 @@
         "jsx": "react-jsx",
         "incremental": true,
         "plugins": [{ "name": "next" }],
-        "baseUrl": ".",
         "paths": {
-            "@components/*": ["app/components/*"],
-            "@lib/*": ["app/lib/*"],
+            "@components/*": ["./app/components/*"],
+            "@lib/*": ["./app/lib/*"],
             "@/*": ["./*"]
         }
     },

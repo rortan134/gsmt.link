@@ -1,32 +1,24 @@
 "use server";
 
 import { prisma } from "@/prisma";
+import { connection } from "next/server";
 
+/** @internal */
 async function updateViewCount() {
+    await connection();
     try {
         await prisma.counter.upsert({
-            where: { id: 1 },
-            update: { visitCount: { increment: 1 } },
             create: { id: 1, visitCount: 1 },
+            update: { visitCount: { increment: 1 } },
+            where: { id: 1 },
         });
     } catch (error) {
         console.error("Failed to update view count:", error);
     }
 }
 
-/**
- * Server component that updates the view counter
- */
-export async function UpdateServerViewCounter() {
-    await updateViewCount();
-    return null;
-}
-
-/**
- * Get the page view count
- * @returns The view count or 0 if not found
- */
-export async function getPageViewCount() {
+async function getPageViewCount() {
+    await connection();
     try {
         const data = await prisma.counter.findUnique({ where: { id: 1 } });
         return data?.visitCount ?? 0;
@@ -35,3 +27,10 @@ export async function getPageViewCount() {
         return 0;
     }
 }
+
+const UpdateServerViewCounter = async () => {
+    await updateViewCount();
+    return null;
+};
+
+export { getPageViewCount, UpdateServerViewCounter };

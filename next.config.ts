@@ -1,8 +1,11 @@
+import { withGTConfig } from "gt-next/config";
 import type { NextConfig } from "next";
-import createNextIntlPlugin from "next-intl/plugin";
 
-const config: NextConfig = {};
+const config: NextConfig = {
+    cacheComponents: true,
+};
 
-const withNextIntl = createNextIntlPlugin();
-
-export default withNextIntl(config);
+export default withGTConfig(config, {
+    experimentalLocaleResolution: true,
+    loadTranslationsPath: "./translations.ts",
+});

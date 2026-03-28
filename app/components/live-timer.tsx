@@ -1,14 +1,16 @@
 "use client";
 
 import { dayjs } from "@/app/lib/dayjs";
-import { useLocale } from "next-intl";
+import { useLocaleSelector } from "gt-next/client";
 import * as React from "react";
 
-export const LiveCount = () => {
-    dayjs.locale(useLocale());
+const LiveTimer = () => {
+    const { locale } = useLocaleSelector();
+    dayjs.locale(locale);
 
-    const [time, setTime] = React.useState(() => dayjs().format("HH:mm:ss"));
-    React.useEffect(() => {
+    const [time, setTime] = React.useState("00:00:00");
+    React.useLayoutEffect(() => {
+        setTime(dayjs().format("HH:mm:ss"));
         const intervalId = window.setInterval(() => {
             setTime(dayjs().format("HH:mm:ss"));
         }, 1000);
@@ -24,3 +26,5 @@ export const LiveCount = () => {
         </span>
     );
 };
+
+export { LiveTimer };
