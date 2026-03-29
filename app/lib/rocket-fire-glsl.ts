@@ -1,3 +1,4 @@
+// This is a direct rewrite of what was originally a GLSL shader so it's intentionally a mess for now
 export const ROCKET_FIRE_FRAGMENT_SHADER = `
 precision highp float;
 
@@ -23,7 +24,8 @@ const float cVolumeDensityScale = 2.0;
 
 const float cAlphaAbsorption = 0.9;
 
-const int MARCH_STEPS = 64;
+// Should be 128 for best quality, but 48 is a good compromise between quality and performance
+const int MARCH_STEPS = 48;
 
 float saturate(float value) {
 	return clamp(value, 0.0, 1.0);
@@ -112,16 +114,30 @@ float snoise01(vec3 p) {
 
 float fbm2(vec3 p, float roughness) {
 	float v = 0.0;
+	float n = 0.0;
 	float a = 0.5;
 	float f = 1.0;
-	float n = 0.0;
-	for (int i = 0; i < 2; i++) {
-		v += a * snoise01(p * f);
-		n += a;
-		f *= 2.0;
-		a *= roughness;
-	}
+	v += a * snoise01(p * f);
+	n += a;
+	f *= 2.0;
+	a *= roughness;
+	v += a * snoise01(p * f);
+	n += a;
 	return v / max(n, 1e-4);
+}
+
+const float cFbm15HalfInvNorm = 1.000030517578125;
+
+float fbm15RoughHalf(vec3 p) {
+	float v = 0.0;
+	float a = 0.5;
+	float f = 1.0;
+	for (int i = 0; i < 15; i++) {
+		v += a * (snoise(p * f) * 0.5 + 0.5);
+		f *= 2.0;
+		a *= 0.5;
+	}
+	return v * cFbm15HalfInvNorm;
 }
 
 float fbm15(vec3 p, float roughness) {
@@ -222,12 +238,6 @@ float gradientQuadraticSphereFactor(vec3 p) {
 	return r * r;
 }
 
-vec3 mappingRotZ(vec3 v, float rz) {
-	float c = cos(rz);
-	float s = sin(rz);
-	return vec3(c * v.x - s * v.y, s * v.x + c * v.y, v.z);
-}
-
 vec3 toBlenderGeneratedSpace(vec3 gen, vec3 jetAxis) {
 	if (jetAxis.x > 0.5) {
 		return vec3(gen.y, gen.x, gen.z);
@@ -252,16 +262,8 @@ vec3 flipGeneratedAlongJet(vec3 gen, vec3 jetAxis) {
 vec3 mapping001FromVector(vec3 v) {
 	vec3 loc = vec3(mix(1.0, 0.0, saturate(uThrottle)), 1.0, -1.0);
 	vec3 scaled = v * vec3(2.0, 1.0, 2.0);
-	vec3 rotated = mappingRotZ(scaled, -1.5707963705062866);
+	vec3 rotated = vec3(scaled.y, -scaled.x, scaled.z);
 	return rotated + loc;
-}
-
-float gradLinearMapping004(vec3 g) {
-	return saturate(mappingRotZ(g, -1.5707963705062866).x);
-}
-
-vec3 mapping008Point(vec3 g) {
-	return mappingRotZ(g, 1.5707963705062866) + vec3(1.0, 0.0, 0.0);
 }
 
 vec4 sampleFlame(vec3 point) {
@@ -270,17 +272,18 @@ vec4 sampleFlame(vec3 point) {
 	gen = flipGeneratedAlongJet(gen, uJetAxis);
 	vec3 g = toBlenderGeneratedSpace(gen, uJetAxis);
 
-	float gxRaw = gradLinearMapping004(g);
+	float gxRaw = saturate(g.y);
 
 	float scrollY = uTime * -2.5999999046325684;
 	vec3 genScrolled = gen;
 	genScrolled.y += scrollY;
 	vec3 gScrolled = toBlenderGeneratedSpace(genScrolled, uJetAxis);
+	vec3 gScrolled3 = gScrolled * 3.0;
 
 	vec3 n1 = vec3(
-		fbm2(gScrolled * 3.0 + vec3(0.0, 0.0, 0.0), 0.7133333683013916),
-		fbm2(gScrolled * 3.0 + vec3(5.2, 1.3, 0.0), 0.7133333683013916),
-		fbm2(gScrolled * 3.0 + vec3(0.0, 9.7, 2.8), 0.7133333683013916)
+		fbm2(gScrolled3, 0.7133333683013916),
+		fbm2(gScrolled3 + vec3(5.2, 1.3, 0.0), 0.7133333683013916),
+		fbm2(gScrolled3 + vec3(0.0, 9.7, 2.8), 0.7133333683013916)
 	);
 	vec3 distortedCoord = mix(gScrolled, n1, 0.5400000214576721);
 	vec3 mapped5 = distortedCoord * vec3(1.0, 0.28, 1.0) + vec3(0.0, 0.99, 0.0);
@@ -288,24 +291,24 @@ vec4 sampleFlame(vec3 point) {
 	float turbScroll = uTime * -5.0;
 	vec3 turbLocal = gen * vec3(1.0, 1.38, 1.0) + vec3(0.0, turbScroll, 0.0);
 	vec3 turbIn = toBlenderGeneratedSpace(turbLocal, uJetAxis);
+	vec3 turb8 = turbIn * 8.0;
 
 	vec3 n2 = vec3(
-		fbm15(turbIn * 8.0 + vec3(0.0, turbScroll * 0.35, 0.1), 0.5),
-		fbm15(turbIn * 8.0 + vec3(9.2, 3.1, turbScroll * 0.2), 0.5),
-		fbm15(turbIn * 8.0 + vec3(2.2, 8.4, turbScroll * 0.15), 0.5)
+		fbm15RoughHalf(turb8 + vec3(0.0, turbScroll * 0.35, 0.1)),
+		fbm15RoughHalf(turb8 + vec3(9.2, 3.1, turbScroll * 0.2)),
+		fbm15RoughHalf(turb8 + vec3(2.2, 8.4, turbScroll * 0.15))
 	);
 
-	float gradForMix004 = saturate(mapping008Point(g).x);
+	float gradForMix004 = saturate(1.0 - g.y);
 	float toMinMap2 = mix(1.0, 0.5, saturate(uTurbulenceFactor));
 	float mix4factor = remap(0.0, 1.0, toMinMap2, 1.0, gradForMix004);
 	vec3 mix4 = mix(n2, g, mix4factor);
 
 	vec3 reroute004 = mapping001FromVector(mix4);
 
-	float invCones = 1.0 / max(uCones, 0.001);
+	float conesSafe = max(uCones, 0.001);
 	float math009 = abs(gxRaw + uConeOffset / 5.0);
-	float math008 = math009 - invCones * floor(math009 / invCones);
-	float coneFactor = saturate(math008 / invCones);
+	float coneFactor = saturate(fract(math009 * conesSafe));
 	float coneBell = sampleConeSpacingCurve(coneFactor);
 
 	float math002 = 1.0 / max(coneBell, 0.0001);
@@ -393,7 +396,7 @@ void main() {
 		}
 	}
 
-	if (length(accumColor) < 1e-6) {
+	if (dot(accumColor, accumColor) < 1e-12) {
 		discard;
 	}
 

@@ -1,5 +1,9 @@
 "use client";
 
+import {
+    createRocketEngineAudio,
+    type RocketEngineAudioController,
+} from "@lib/rocket-engine-audio";
 import { ROCKET_FIRE_FRAGMENT_SHADER } from "@lib/rocket-fire-glsl";
 import { Bounds, OrbitControls, useBounds, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
@@ -49,6 +53,7 @@ interface RGB {
 
 interface DebugState {
     cones: number;
+    engineAudioEnabled: boolean;
     leadingColor: RGB;
     throttle: number;
     trailingColor: RGB;
@@ -57,6 +62,7 @@ interface DebugState {
 function createInitialDebugOptions(): DebugState {
     return {
         cones: DEFAULTS.cones,
+        engineAudioEnabled: false,
         leadingColor: {
             b: DEFAULTS.leadingColor[2],
             g: DEFAULTS.leadingColor[1],
@@ -74,6 +80,7 @@ function createInitialDebugOptions(): DebugState {
 function cloneDebugOptions(state: DebugState): DebugState {
     return {
         cones: state.cones,
+        engineAudioEnabled: state.engineAudioEnabled,
         leadingColor: {
             b: state.leadingColor.b,
             g: state.leadingColor.g,
@@ -104,13 +111,10 @@ void main() {
 }
 `;
 
-function jetAxisFromBounds(
-    min: THREE.Vector3,
-    max: THREE.Vector3,
-): THREE.Vector3 {
-    const sx = max.x - min.x;
-    const sy = max.y - min.y;
-    const sz = max.z - min.z;
+function dominantAxisFromBoxSize(boxSize: THREE.Vector3): THREE.Vector3 {
+    const sx = boxSize.x;
+    const sy = boxSize.y;
+    const sz = boxSize.z;
     if (sx >= sy && sx >= sz) {
         return new THREE.Vector3(1, 0, 0);
     }
@@ -120,27 +124,36 @@ function jetAxisFromBounds(
     return new THREE.Vector3(0, 0, 1);
 }
 
+function jetAxisFromBounds(
+    min: THREE.Vector3,
+    max: THREE.Vector3
+): THREE.Vector3 {
+    return dominantAxisFromBoxSize(new THREE.Vector3().subVectors(max, min));
+}
+
+const WORLD_UP = new THREE.Vector3(0, 1, 0);
+const WORLD_Z = new THREE.Vector3(0, 0, 1);
+
 function perpendicularCameraOffset(
     boxSize: THREE.Vector3,
-    distance: number,
+    distance: number
 ): THREE.Vector3 {
-    const sx = boxSize.x;
-    const sy = boxSize.y;
-    const sz = boxSize.z;
-    if (sx >= sy && sx >= sz) {
-        return new THREE.Vector3(0, 0, distance);
+    const longAxis = dominantAxisFromBoxSize(boxSize);
+    const side = new THREE.Vector3().crossVectors(WORLD_UP, longAxis);
+    if (side.lengthSq() < 1e-10) {
+        side.crossVectors(WORLD_Z, longAxis);
     }
-    if (sy >= sz) {
-        return new THREE.Vector3(0, 0, distance);
-    }
-    return new THREE.Vector3(distance, 0, 0);
+    return side.normalize().multiplyScalar(distance);
 }
 
 function BoundsPerpendicularCamera() {
     const bounds = useBounds();
     const invalidate = useThree((s) => s.invalidate);
+    const controls = useThree((s) => s.controls);
+    const { height, width } = useThree((s) => s.size);
 
-    React.useLayoutEffect(() => {
+    // biome-ignore lint/correctness/useExhaustiveDependencies: controls + viewport size must re-run after Bounds.refresh() clears goals (resize / late controls).
+    React.useEffect(() => {
         if (!bounds) {
             return;
         }
@@ -157,7 +170,7 @@ function BoundsPerpendicularCamera() {
         bounds.moveTo(center.clone().add(offset)).lookAt({ target: center });
         bounds.clip();
         invalidate();
-    }, [bounds, invalidate]);
+    }, [bounds, controls, height, invalidate, width]);
 
     return null;
 }
@@ -263,7 +276,7 @@ function tuneMaterials(root: THREE.Object3D) {
             material.roughness = THREE.MathUtils.clamp(
                 material.roughness * 0.62,
                 0.12,
-                0.24,
+                0.24
             );
             material.needsUpdate = true;
         }
@@ -272,7 +285,7 @@ function tuneMaterials(root: THREE.Object3D) {
 
 function removeDisposableMaterial(
     disposableMaterials: THREE.Material[],
-    material: THREE.Material,
+    material: THREE.Material
 ): void {
     const index = disposableMaterials.indexOf(material);
     if (index !== -1) {
@@ -282,7 +295,7 @@ function removeDisposableMaterial(
 
 function prepareEntries(
     root: THREE.Object3D,
-    disposableMaterials: THREE.Material[],
+    disposableMaterials: THREE.Material[]
 ): Entry[] {
     const entries: Entry[] = [];
 
@@ -358,6 +371,10 @@ function DebugPanel(props: {
             step: DEFAULTS.throttleStep,
         }).on("change", emitChange);
 
+        pane.addBinding(p, "engineAudioEnabled", {
+            label: "Engine audio",
+        }).on("change", emitChange);
+
         pane.addBinding(p, "leadingColor", {
             ...colorOpts,
             label: "Leading color",
@@ -384,6 +401,7 @@ function DebugPanel(props: {
     React.useEffect(() => {
         const p = paramsRef.current;
         p.throttle = debug.throttle;
+        p.engineAudioEnabled = debug.engineAudioEnabled;
         p.cones = debug.cones;
         p.leadingColor.r = debug.leadingColor.r;
         p.leadingColor.g = debug.leadingColor.g;
@@ -431,7 +449,7 @@ function Model(props: { debug: DebugState }) {
                     debug.leadingColor.r,
                     debug.leadingColor.g,
                     debug.leadingColor.b,
-                    1,
+                    1
                 );
             }
             if (trail instanceof THREE.Vector4) {
@@ -439,7 +457,7 @@ function Model(props: { debug: DebugState }) {
                     debug.trailingColor.r,
                     debug.trailingColor.g,
                     debug.trailingColor.b,
-                    1,
+                    1
                 );
             }
         }
@@ -472,11 +490,32 @@ useGLTF.preload(GLTF_PATH);
 
 export function Scene() {
     const [debug, setDebug] = React.useState<DebugState>(() =>
-        createInitialDebugOptions(),
+        createInitialDebugOptions()
     );
     const onDebugChange = React.useCallback((next: DebugState) => {
         setDebug(next);
     }, []);
+    const engineAudioRef = React.useRef<RocketEngineAudioController | null>(
+        null
+    );
+
+    React.useLayoutEffect(() => {
+        const audio = createRocketEngineAudio();
+        engineAudioRef.current = audio;
+        return () => {
+            audio.dispose();
+            engineAudioRef.current = null;
+        };
+    }, []);
+
+    React.useEffect(() => {
+        const audio = engineAudioRef.current;
+        if (!audio) {
+            return;
+        }
+        audio.setThrottle(debug.throttle);
+        audio.setEnabled(debug.engineAudioEnabled);
+    }, [debug.engineAudioEnabled, debug.throttle]);
 
     return (
         <div className="h-full min-h-dvh w-full">
@@ -486,12 +525,12 @@ export function Scene() {
                     far: 100,
                     fov: 45,
                     near: 0.1,
-                    position: [0, 0, 2],
+                    position: [1.65, 0.26, 0],
                 }}
                 dpr={[1, 2]}
                 frameloop="always"
                 gl={{
-                    antialias: false,
+                    antialias: true,
                     outputColorSpace: THREE.SRGBColorSpace,
                     toneMapping: THREE.NoToneMapping,
                 }}
@@ -512,7 +551,7 @@ export function Scene() {
                     position={[0, 7, 2]}
                 />
                 <React.Suspense fallback={null}>
-                    <Bounds clip observe>
+                    <Bounds clip margin={0.9} maxDuration={0.01} observe>
                         <Model debug={debug} />
                         <BoundsPerpendicularCamera />
                     </Bounds>
@@ -522,7 +561,7 @@ export function Scene() {
                     makeDefault
                     maxDistance={5}
                     maxPolarAngle={Math.PI * 0.92}
-                    minDistance={0.4}
+                    minDistance={3}
                 />
             </Canvas>
         </div>
