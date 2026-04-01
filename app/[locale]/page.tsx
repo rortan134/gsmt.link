@@ -8,6 +8,7 @@ import { Timezone } from "@/app/components/timezone";
 import { TodayDate } from "@/app/components/today-date";
 import { cn } from "@/app/lib/cn";
 import { formatCompactNumber } from "@/app/lib/format";
+import { Carousel } from "@components/carousel";
 import { LiveTimer } from "@components/live-timer";
 import {
     getPageViewCount,
@@ -48,7 +49,7 @@ async function PageViewsCounter() {
         <span
             className={cn(
                 "relative inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
-                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100",
+                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100"
             )}
             data-full-count={pageViewCount.toString()}
         >
@@ -64,7 +65,7 @@ function PageViewsCounterFallback() {
     return (
         <span
             className={cn(
-                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
+                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums"
             )}
         >
             <Eye aria-hidden className="mr-1 size-4" focusable="false" />
@@ -87,7 +88,7 @@ export default async function HomePage({
     return (
         <PageShell>
             <Header locale={locale} />
-            <section className="container relative mt-18 flex w-full items-center justify-between">
+            <section className="container relative mt-16 flex w-full items-center justify-between">
                 <Line className="-top-20 left-5" variant="vertical" />
                 <Line className="-top-20 right-6" variant="vertical" />
                 <Line className="-top-20 right-14" variant="vertical" />
@@ -190,16 +191,16 @@ export default async function HomePage({
                     </Link>
                 </div>
             </section>
-            <section className="container mt-16 flex flex-col space-y-4">
+            <section className="container mt-20 flex flex-col space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="flex-1 truncate font-semibold text-muted-foreground text-xs">
+                    <h2 className="flex-1 truncate font-semibold text-muted-foreground text-xs">
                         <T>Today</T>
                         <span className="ml-3 inline-block font-serif opacity-50">
                             <React.Suspense fallback={<span>—</span>}>
                                 <TodayDate />
                             </React.Suspense>
                         </span>
-                    </h1>
+                    </h2>
                     <div className="flex items-center justify-end space-x-3">
                         <svg
                             aria-hidden
@@ -272,9 +273,10 @@ export default async function HomePage({
                             focusable="false"
                         />
                         , dynamic websites and APIs, charmful native
-                        applications, fractal simulations, data visualizations,
-                        engaging in-app experiences and more. Outside of
-                        programming, I enjoy doing photography and traveling{" "}
+                        applications, shaders, fractal simulations, data
+                        visualizations, engaging in-app experiences and more.
+                        Outside of programming, I enjoy doing photography and
+                        traveling{" "}
                         <TicketsPlane
                             aria-hidden
                             className="inline-block size-4 opacity-50"
@@ -283,11 +285,11 @@ export default async function HomePage({
                         .
                     </p>
                 </T>
-                <hr className="my-2.5 border-border" />
-                {/* <T>
-                    <h1 className="mt-3 flex-1 truncate font-semibold text-muted-foreground text-xs">
+                <hr className="my-3 border-border" />
+                <T>
+                    <h2 className="mt-3 mb-4 flex-1 truncate font-semibold text-muted-foreground text-xs">
                         Why me?
-                    </h1>
+                    </h2>
                     <p className="text-foreground text-sm">
                         A senior designer costs you $100K+ before benefits,
                         equipment, and management overhead, and you still only
@@ -296,162 +298,154 @@ export default async function HomePage({
                         less than a single hire. Little onboarding, minimal
                         ramp-up.
                     </p>
-                </T> */}
+                </T>
             </section>
-            {/* <section className="container mt-20">
+            <section className="container mt-20">
+                <T>
+                    <h2 className="mt-3 mb-4 flex-1 truncate font-semibold text-muted-foreground text-xs">
+                        Experience
+                    </h2>
+                </T>
                 <React.Suspense>
                     <Carousel>
-                        <div className="flex flex-col gap-y-3">
-                            <div className="flex h-max min-h-full flex-1 flex-col gap-y-3 p-4">
-                                <h2 className="font-medium text-muted-foreground text-xs">
-                                    Project · 2026
-                                </h2>
-                                <p className="text-foreground text-xs">
-                                    Description 1 Lorem ipsum dolor sit amet
-                                    consectetur adipisicing elit. Quisquam,
-                                    quos.
-                                </p>
-                                <Link
-                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
-                                    draggable={false}
-                                    href="https://github.com/rortan134/gsmt"
-                                    rel="noreferrer noopener"
-                                    target="_blank"
-                                >
-                                    <span>View source</span>
-                                    <ArrowUpRight
-                                        aria-hidden
-                                        className="mt-px inline-block size-3 opacity-80"
-                                        focusable="false"
-                                    />
-                                    <span
-                                        aria-hidden
-                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
-                                    />
-                                </Link>
-                            </div>
-                            <Image
-                                alt=""
-                                className="aspect-930/1038 h-auto w-full object-cover"
+                        <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
+                            <h2 className="font-medium text-muted-foreground text-xs">
+                                Project
+                            </h2>
+                            <p className="text-foreground text-xs">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Quisquam, quos.
+                            </p>
+                            <Link
+                                className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
                                 draggable={false}
-                                src={ProjectImage2}
-                            />
+                                href="https://github.com/rortan134/gsmt"
+                                rel="noreferrer noopener"
+                                target="_blank"
+                            >
+                                <span>View source</span>
+                                <ArrowUpRight
+                                    aria-hidden
+                                    className="mt-px inline-block size-3 opacity-80"
+                                    focusable="false"
+                                />
+                                <span
+                                    aria-hidden
+                                    className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                />
+                            </Link>
                         </div>
-                        <div className="flex flex-col gap-y-3">
-                            <div className="flex h-max min-h-full flex-1 flex-col gap-y-3 p-4">
-                                <h2 className="font-medium text-muted-foreground text-xs">
-                                    Project · 2026
-                                </h2>
-                                <p className="text-foreground text-xs">
-                                    Description 1 Lorem ipsum dolor sit amet
-                                    consectetur adipisicing elit. Quisquam,
-                                    quos.
-                                </p>
-                                <Link
-                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
-                                    draggable={false}
-                                    href="https://github.com/rortan134/gsmt"
-                                    rel="noreferrer noopener"
-                                    target="_blank"
-                                >
-                                    <span>View source</span>
-                                    <ArrowUpRight
-                                        aria-hidden
-                                        className="mt-px inline-block size-3 opacity-80"
-                                        focusable="false"
-                                    />
-                                    <span
-                                        aria-hidden
-                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
-                                    />
-                                </Link>
-                            </div>
-                            <Image
-                                alt=""
-                                className="aspect-930/1038 h-auto w-full object-cover"
+                        <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
+                            <h2 className="font-medium text-muted-foreground text-xs">
+                                Project
+                            </h2>
+                            <p className="text-foreground text-xs">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Quisquam, quos.
+                            </p>
+                            <Link
+                                className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
                                 draggable={false}
-                                src={ProjectImage2}
-                            />
+                                href="https://github.com/rortan134/gsmt"
+                                rel="noreferrer noopener"
+                                target="_blank"
+                            >
+                                <span>View source</span>
+                                <ArrowUpRight
+                                    aria-hidden
+                                    className="mt-px inline-block size-3 opacity-80"
+                                    focusable="false"
+                                />
+                                <span
+                                    aria-hidden
+                                    className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                />
+                            </Link>
                         </div>
-                        <div className="flex flex-col gap-y-3">
-                            <div className="flex h-max min-h-full flex-1 flex-col gap-y-3 p-4">
-                                <h2 className="font-medium text-muted-foreground text-xs">
-                                    Project · 2026
-                                </h2>
-                                <p className="text-foreground text-xs">
-                                    Description 1 Lorem ipsum dolor sit amet
-                                    consectetur adipisicing elit. Quisquam,
-                                    quos.
-                                </p>
-                                <Link
-                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
-                                    draggable={false}
-                                    href="https://github.com/rortan134/gsmt"
-                                    rel="noreferrer noopener"
-                                    target="_blank"
-                                >
-                                    <span>View source</span>
-                                    <ArrowUpRight
-                                        aria-hidden
-                                        className="mt-px inline-block size-3 opacity-80"
-                                        focusable="false"
-                                    />
-                                    <span
-                                        aria-hidden
-                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
-                                    />
-                                </Link>
-                            </div>
-                            <Image
-                                alt=""
-                                className="aspect-930/1038 h-auto w-full object-cover"
+                        <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
+                            <h2 className="font-medium text-muted-foreground text-xs">
+                                Project
+                            </h2>
+                            <p className="text-foreground text-xs">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Quisquam, quos.
+                            </p>
+                            <Link
+                                className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
                                 draggable={false}
-                                src={ProjectImage2}
-                            />
+                                href="https://github.com/rortan134/gsmt"
+                                rel="noreferrer noopener"
+                                target="_blank"
+                            >
+                                <span>View source</span>
+                                <ArrowUpRight
+                                    aria-hidden
+                                    className="mt-px inline-block size-3 opacity-80"
+                                    focusable="false"
+                                />
+                                <span
+                                    aria-hidden
+                                    className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                />
+                            </Link>
                         </div>
-                        <div className="flex flex-col gap-y-3">
-                            <div className="flex h-max min-h-full flex-1 flex-col gap-y-3 p-4">
-                                <h2 className="font-medium text-muted-foreground text-xs">
-                                    Project · 2026
-                                </h2>
-                                <p className="text-foreground text-xs">
-                                    Description 1 Lorem ipsum dolor sit amet
-                                    consectetur adipisicing elit. Quisquam,
-                                    quos.
-                                </p>
-                                <Link
-                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
-                                    draggable={false}
-                                    href="https://github.com/rortan134/gsmt"
-                                    rel="noreferrer noopener"
-                                    target="_blank"
-                                >
-                                    <span>View source</span>
-                                    <ArrowUpRight
-                                        aria-hidden
-                                        className="mt-px inline-block size-3 opacity-80"
-                                        focusable="false"
-                                    />
-                                    <span
-                                        aria-hidden
-                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
-                                    />
-                                </Link>
-                            </div>
-                            <Image
-                                alt=""
-                                className="aspect-930/1038 h-auto w-full object-cover"
+                        <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
+                            <h2 className="font-medium text-muted-foreground text-xs">
+                                Project
+                            </h2>
+                            <p className="text-foreground text-xs">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Quisquam, quos.
+                            </p>
+                            <Link
+                                className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
                                 draggable={false}
-                                src={ProjectImage2}
-                            />
+                                href="https://github.com/rortan134/gsmt"
+                                rel="noreferrer noopener"
+                                target="_blank"
+                            >
+                                <span>View source</span>
+                                <ArrowUpRight
+                                    aria-hidden
+                                    className="mt-px inline-block size-3 opacity-80"
+                                    focusable="false"
+                                />
+                                <span
+                                    aria-hidden
+                                    className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                />
+                            </Link>
+                        </div>
+                        <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
+                            <h2 className="font-medium text-muted-foreground text-xs">
+                                Project
+                            </h2>
+                            <p className="text-foreground text-xs">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Quisquam, quos.
+                            </p>
+                            <Link
+                                className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                draggable={false}
+                                href="https://github.com/rortan134/gsmt"
+                                rel="noreferrer noopener"
+                                target="_blank"
+                            >
+                                <span>View source</span>
+                                <ArrowUpRight
+                                    aria-hidden
+                                    className="mt-px inline-block size-3 opacity-80"
+                                    focusable="false"
+                                />
+                                <span
+                                    aria-hidden
+                                    className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                />
+                            </Link>
                         </div>
                     </Carousel>
                 </React.Suspense>
-                <p className="mt-4 text-foreground text-xs">
-                    <sup>*</sup>
-                    <T>My focus these days is mainly on the web ecosystem.</T>
-                </p>
-            </section> */}
+            </section>
             <React.Suspense
                 fallback={
                     <section className="container mt-20 grid w-full gap-6 md:grid-cols-2">
