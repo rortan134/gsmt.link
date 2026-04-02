@@ -310,20 +310,34 @@ export default async function HomePage({
                     <Carousel>
                         <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
                             <h2 className="font-medium text-muted-foreground text-xs">
-                                Project
+                                itemIQ
                             </h2>
-                            <p className="text-foreground text-xs">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Quisquam, quos.
-                            </p>
+                            <T>
+                                <p className="text-foreground text-xs">
+                                    Built the platform foundations for Amazon
+                                    FBA and FBM sellers, replacing
+                                    spreadsheet-heavy catalog workflows with
+                                    automated profit analysis, opportunity
+                                    detection, and smart restocking. I designed
+                                    and implemented core backend and data
+                                    pipelines across Python and TypeScript for
+                                    ASIN ingestion, SP-API integration, fee and
+                                    margin computation, and issue detection,
+                                    helping sellers monitor thousands of ASINs,
+                                    catch suppressed Buy Boxes or miscategorized
+                                    listings, and save money.
+                                </p>
+                            </T>
                             <Link
                                 className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
                                 draggable={false}
-                                href="https://github.com/rortan134/gsmt"
+                                href="https://item-iq.com/"
                                 rel="noreferrer noopener"
                                 target="_blank"
                             >
-                                <span>View source</span>
+                                <T>
+                                    <span>Visit project</span>
+                                </T>
                                 <ArrowUpRight
                                     aria-hidden
                                     className="mt-px inline-block size-3 opacity-80"
@@ -337,20 +351,34 @@ export default async function HomePage({
                         </div>
                         <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
                             <h2 className="font-medium text-muted-foreground text-xs">
-                                Project
+                                Infactura
                             </h2>
-                            <p className="text-foreground text-xs">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Quisquam, quos.
-                            </p>
+                            <T>
+                                <p className="text-foreground text-xs">
+                                    Led development of Infactura, an online
+                                    invoicing platform for freelancers and SMEs
+                                    in Spain focused on compliant electronic
+                                    invoicing, faster payments, and alignment
+                                    with AEAT, VeriFactu, and EU requirements.
+                                    Built the multi-tenant app with TypeScript,
+                                    React, Next.js, Prisma, and Postgres,
+                                    including invoice templating, recurring
+                                    billing, payment links, tax logic, automated
+                                    dunning flows, and a strong emphasis on
+                                    polished UX, typography, and branded
+                                    documents.
+                                </p>
+                            </T>
                             <Link
                                 className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
                                 draggable={false}
-                                href="https://github.com/rortan134/gsmt"
+                                href="https://infactura.com"
                                 rel="noreferrer noopener"
                                 target="_blank"
                             >
-                                <span>View source</span>
+                                <T>
+                                    <span>Visit project</span>
+                                </T>
                                 <ArrowUpRight
                                     aria-hidden
                                     className="mt-px inline-block size-3 opacity-80"
@@ -364,20 +392,32 @@ export default async function HomePage({
                         </div>
                         <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
                             <h2 className="font-medium text-muted-foreground text-xs">
-                                Project
+                                Cache
                             </h2>
-                            <p className="text-foreground text-xs">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Quisquam, quos.
-                            </p>
+                            <T>
+                                <p className="text-foreground text-xs">
+                                    Created Cache, a browser-first app that
+                                    brings bookmarks and saved content from
+                                    different platforms into one searchable
+                                    workspace. I focused on dependable ingestion
+                                    pipelines, metadata normalization across
+                                    sources, and fast client-side search and
+                                    filtering, using modern React patterns, and
+                                    a Postgres-backed sync layer to keep
+                                    high-volume personal knowledge management
+                                    responsive.
+                                </p>
+                            </T>
                             <Link
                                 className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
                                 draggable={false}
-                                href="https://github.com/rortan134/gsmt"
+                                href="https://www.cachd.app"
                                 rel="noreferrer noopener"
                                 target="_blank"
                             >
-                                <span>View source</span>
+                                <T>
+                                    <span>Visit project</span>
+                                </T>
                                 <ArrowUpRight
                                     aria-hidden
                                     className="mt-px inline-block size-3 opacity-80"
@@ -391,20 +431,31 @@ export default async function HomePage({
                         </div>
                         <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
                             <h2 className="font-medium text-muted-foreground text-xs">
-                                Project
+                                MinuteDebate
                             </h2>
-                            <p className="text-foreground text-xs">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Quisquam, quos.
-                            </p>
+                            <T>
+                                <p className="text-foreground text-xs">
+                                    Built MinuteDebate, a real-time debating
+                                    game where two anonymous players argue a
+                                    randomly assigned topic for 60 seconds each
+                                    while an AI judge scores persuasion and
+                                    coherence. I designed the game loop,
+                                    low-latency real-time interactions, the
+                                    interface, and the LLM-powered evaluation
+                                    pipeline so players receive instant,
+                                    structured feedback.
+                                </p>
+                            </T>
                             <Link
                                 className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
                                 draggable={false}
-                                href="https://github.com/rortan134/gsmt"
+                                href="https://minutedebate.com"
                                 rel="noreferrer noopener"
                                 target="_blank"
                             >
-                                <span>View source</span>
+                                <T>
+                                    <span>Visit project</span>
+                                </T>
                                 <ArrowUpRight
                                     aria-hidden
                                     className="mt-px inline-block size-3 opacity-80"
@@ -418,30 +469,233 @@ export default async function HomePage({
                         </div>
                         <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
                             <h2 className="font-medium text-muted-foreground text-xs">
-                                Project
+                                gsmt
                             </h2>
-                            <p className="text-foreground text-xs">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Quisquam, quos.
-                            </p>
-                            <Link
-                                className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
-                                draggable={false}
-                                href="https://github.com/rortan134/gsmt"
-                                rel="noreferrer noopener"
-                                target="_blank"
-                            >
-                                <span>View source</span>
-                                <ArrowUpRight
-                                    aria-hidden
-                                    className="mt-px inline-block size-3 opacity-80"
-                                    focusable="false"
-                                />
-                                <span
-                                    aria-hidden
-                                    className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
-                                />
-                            </Link>
+                            <T>
+                                <p className="text-foreground text-xs">
+                                    Designed and developed gsmt as both my
+                                    portfolio and a live playground for
+                                    interaction design, typography, and
+                                    performance experiments. It works as a
+                                    testbed for animations, layout systems, and
+                                    reusable component abstractions that later
+                                    inform production work, while staying
+                                    minimal, fast, and content-first.
+                                </p>
+                            </T>
+                            <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://gsmt.link"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <T>
+                                        <span>Visit project</span>
+                                    </T>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://github.com/rortan134/gsmt"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <T>
+                                        <span>View source</span>
+                                    </T>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
+                            <T>
+                                <h2 className="font-medium text-muted-foreground text-xs">
+                                    Developer Tools & UI Utilities
+                                </h2>
+                            </T>
+                            <T>
+                                <p className="text-foreground text-xs">
+                                    Built focused tools for developers such as
+                                    cleaning-mode, an Electron utility that
+                                    temporarily disables keyboard and touch
+                                    input so devices can be cleaned safely,
+                                    alongside libraries like use-selectify,
+                                    use-gif, and react-bypass. These projects
+                                    reflect my interest in ergonomic APIs,
+                                    well-scoped abstractions, and closing the
+                                    gap between interaction design and
+                                    implementation.
+                                </p>
+                            </T>
+                            <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://github.com/rortan134/cleaning-mode"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <span>cleaning-mode</span>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://useselectify.js.org/"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <span>use-selectify</span>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://github.com/rortan134/use-gif"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <span>use-gif</span>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://github.com/rortan134/react-bypass"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <span>react-bypass</span>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
+                            <T>
+                                <h2 className="font-medium text-muted-foreground text-xs">
+                                    Creative Coding & Simulations
+                                </h2>
+                            </T>
+                            <T>
+                                <p className="text-foreground text-xs">
+                                    Created a range of creative coding
+                                    experiments including Mandelbrot renderers,
+                                    chaos-equation visualizers, shaders, and
+                                    fluid and particle simulations. These
+                                    explorations pushed my understanding of
+                                    WebGL, canvas, numerical methods, and
+                                    browser performance while sharpening my
+                                    instincts for data visualization and motion
+                                    aesthetics.
+                                </p>
+                            </T>
+                            <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://github.com/rortan134/mandelbrot"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <span>mandelbrot</span>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://github.com/rortan134/chaos-equations"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <span>chaos-equations</span>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://github.com/rortan134/fractals"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <span>fractals</span>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                            </div>
                         </div>
                     </Carousel>
                 </React.Suspense>
