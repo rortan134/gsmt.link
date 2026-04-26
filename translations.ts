@@ -14,7 +14,8 @@ export default async function loadTranslations(
     try {
         const translations = await import(`./public/_gt/${locale}.json`);
         return translations.default as Record<string, unknown>;
-    } catch (_) {
+    } catch (error) {
+        console.error(error);
         return {} as Record<string, unknown>;
     }
 }

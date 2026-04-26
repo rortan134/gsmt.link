@@ -251,8 +251,22 @@ export default async function HomePage({
                         <TextHighlighter delay={2} highlightColor="#FEFE6B">
                             an eye for design
                         </TextHighlighter>
-                        . I&apos;m also a fan of open-source software, and cool
-                        looking watches{" "}
+                        . I&apos;m also a{" "}
+                        <a
+                            className="underline"
+                            href="https://github.com/rortan134?tab=stars"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
+                            fan of open-source software
+                        </a>
+                        &nbsp;
+                        <Github
+                            aria-hidden
+                            className="inline-block size-4 opacity-50"
+                            focusable="false"
+                        />
+                        , and cool looking watches{" "}
                         <Watch
                             aria-hidden
                             className="inline-block size-4 opacity-50"
@@ -285,18 +299,11 @@ export default async function HomePage({
                         .
                     </p>
                 </T>
-                <hr className="my-3 border-border" />
                 <T>
-                    <h2 className="mt-3 mb-4 flex-1 truncate font-semibold text-muted-foreground text-xs">
-                        Why me?
-                    </h2>
                     <p className="text-foreground text-sm">
-                        A senior designer costs you $100K+ before benefits,
-                        equipment, and management overhead, and you still only
-                        get one skill set. With me, you get a designer, a
-                        developer, a strategist, and a creative director for
-                        less than a single hire. Little onboarding, minimal
-                        ramp-up.
+                        I frequently enjoy owning more of the product lifecycle
+                        with high-agency, including requirements, UX, traffic,
+                        and conversion with responsibility for market success.
                     </p>
                 </T>
             </section>
@@ -305,6 +312,12 @@ export default async function HomePage({
                     <h2 className="mt-3 mb-4 flex-1 truncate font-semibold text-muted-foreground text-xs">
                         Experience
                     </h2>
+                    <p className="mb-4 text-foreground text-sm">
+                        Over the past years, I’ve been super lucky to work with
+                        some amazing people, on a variety of great projects,
+                        ranging from open-source libraries to large-scale
+                        applications that are both challenging and rewarding.
+                    </p>
                 </T>
                 <React.Suspense>
                     <Carousel>
@@ -446,26 +459,48 @@ export default async function HomePage({
                                     structured feedback.
                                 </p>
                             </T>
-                            <Link
-                                className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
-                                draggable={false}
-                                href="https://minutedebate.com"
-                                rel="noreferrer noopener"
-                                target="_blank"
-                            >
-                                <T>
-                                    <span>Visit project</span>
-                                </T>
-                                <ArrowUpRight
-                                    aria-hidden
-                                    className="mt-px inline-block size-3 opacity-80"
-                                    focusable="false"
-                                />
-                                <span
-                                    aria-hidden
-                                    className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
-                                />
-                            </Link>
+                            <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://minutedebate.com"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <T>
+                                        <span>Visit project</span>
+                                    </T>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://github.com/rortan134/minutedebate"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <T>
+                                        <span>View source</span>
+                                    </T>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                            </div>
                         </div>
                         <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
                             <h2 className="font-medium text-muted-foreground text-xs">

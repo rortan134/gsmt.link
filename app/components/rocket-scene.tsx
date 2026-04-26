@@ -472,16 +472,17 @@ function Model(props: { debug: DebugState }) {
         }
     });
 
-    React.useEffect(() => {
-        return () => {
+    React.useEffect(
+        () => () => {
             for (const material of disposableMaterials) {
                 material.dispose();
             }
             for (const entry of entries) {
                 entry.material.dispose();
             }
-        };
-    }, [disposableMaterials, entries]);
+        },
+        [disposableMaterials, entries]
+    );
 
     return <primitive object={root} />;
 }
