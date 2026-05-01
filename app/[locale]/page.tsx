@@ -35,7 +35,7 @@ import Link from "next/link";
 import * as React from "react";
 
 export const metadata: Metadata = {
-    title: "Gilberto",
+    title: "Gilberto — Full-stack developer",
 };
 
 export async function generateStaticParams() {
@@ -49,12 +49,14 @@ async function PageViewsCounter() {
         <span
             className={cn(
                 "relative inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
-                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100"
+                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100",
             )}
             data-full-count={pageViewCount.toString()}
         >
             <Eye aria-hidden className="mr-1 size-4" focusable="false" />
-            <span className="sr-only">Page Views</span>
+            <span className="sr-only">
+                <T>Page Views</T>
+            </span>
             {formatCompactNumber(pageViewCount)}&nbsp;
             <T context="views">page views</T>
         </span>
@@ -65,11 +67,13 @@ function PageViewsCounterFallback() {
     return (
         <span
             className={cn(
-                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums"
+                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
             )}
         >
             <Eye aria-hidden className="mr-1 size-4" focusable="false" />
-            <span className="sr-only">Page Views</span>
+            <span className="sr-only">
+                <T>Page Views</T>
+            </span>
             <span className="relative">
                 00.0k
                 <span className="absolute inset-0 z-10 animate-pulse rounded-md bg-gray-100" />
@@ -104,8 +108,8 @@ export default async function HomePage({
                         <T>
                             <span className="mr-0.5 opacity-60">IPA</span>
                             &nbsp;
-                            <i className="mr-0.5">/ˈɡɪlbət/</i> —&nbsp;software
-                            developer,{" "}
+                            <i className="mr-0.5">/ˈɡɪlbət/</i>{" "}
+                            —&nbsp;full-stack developer,{" "}
                             <span className="opacity-60">maker.</span>
                         </T>
                     </span>
@@ -121,7 +125,7 @@ export default async function HomePage({
                 <Line className="-bottom-1.5" />
             </section>
             <section className="container mt-4.5">
-                <div className="group flex flex-col items-center gap-3 md:flex-row">
+                <div className="group mb-1 flex flex-col items-center gap-3 md:flex-row">
                     <div className="relative flex h-fit w-full items-center md:w-fit">
                         <Link
                             className="flex h-9 w-full items-center justify-center whitespace-nowrap rounded-3xl border bg-transparent pr-11 pl-4 text-sm hover:opacity-100 active:opacity-50 group-hover:opacity-75 md:w-fit"
@@ -133,7 +137,9 @@ export default async function HomePage({
                                 className="mr-3 size-4 opacity-50"
                                 focusable="false"
                             />
-                            <span className="sr-only">Email</span>
+                            <span className="sr-only">
+                                <T>Email</T>
+                            </span>
                             gsmt.dev@gmail.com
                         </Link>
                         <CopyToClipboard text="gsmt.dev@gmail.com">
@@ -153,7 +159,9 @@ export default async function HomePage({
                                     className="absolute size-4 transition-all group-data-[copied=false]/btn:opacity-0"
                                     focusable="false"
                                 />
-                                <span className="sr-only">Copy email</span>
+                                <span className="sr-only">
+                                    <T>Copy email</T>
+                                </span>
                             </button>
                         </CopyToClipboard>
                     </div>
@@ -169,8 +177,10 @@ export default async function HomePage({
                             className="mr-3 size-4 opacity-50"
                             focusable="false"
                         />
-                        <span className="sr-only">X (formerly Twitter)</span>
-                        Twitter
+                        <span className="sr-only">
+                            <T>X (formerly Twitter)</T>
+                        </span>
+                        <T>Twitter</T>
                         <ArrowUpRight className="ml-1.5 size-3.5" />
                     </Link>
                     <Link
@@ -185,11 +195,16 @@ export default async function HomePage({
                             className="mr-3 size-4 opacity-50"
                             focusable="false"
                         />
-                        <span className="sr-only">GitHub</span>
-                        GitHub
+                        <span className="sr-only">
+                            <T>GitHub</T>
+                        </span>
+                        <T>GitHub</T>
                         <ArrowUpRight className="ml-1.5 size-3.5" />
                     </Link>
                 </div>
+                <span className="text-emerald-700 text-xs">
+                    <T>Available for work</T>
+                </span>
             </section>
             <section className="container mt-20 flex flex-col space-y-4">
                 <div className="flex items-center justify-between">
@@ -325,6 +340,23 @@ export default async function HomePage({
                             <h2 className="font-medium text-muted-foreground text-xs">
                                 itemIQ
                             </h2>
+                            <div className="flex flex-wrap gap-1.5">
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Python
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    SP-API
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Redis
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Message Queues
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    High-concurrency
+                                </span>
+                            </div>
                             <T>
                                 <p className="text-foreground text-xs">
                                     Built the platform foundations for Amazon
@@ -366,6 +398,23 @@ export default async function HomePage({
                             <h2 className="font-medium text-muted-foreground text-xs">
                                 Infactura
                             </h2>
+                            <div className="flex flex-wrap gap-1.5">
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Next.js
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Prisma
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    PostgreSQL
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Stripe
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    SSR
+                                </span>
+                            </div>
                             <T>
                                 <p className="text-foreground text-xs">
                                     Led development of Infactura, an online
@@ -407,6 +456,23 @@ export default async function HomePage({
                             <h2 className="font-medium text-muted-foreground text-xs">
                                 Cache
                             </h2>
+                            <div className="flex flex-wrap gap-1.5">
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    React
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    PostgreSQL
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Full-text Search
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    OAuth
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Vector DBs
+                                </span>
+                            </div>
                             <T>
                                 <p className="text-foreground text-xs">
                                     Created Cache, a browser-first app that
@@ -446,6 +512,17 @@ export default async function HomePage({
                             <h2 className="font-medium text-muted-foreground text-xs">
                                 MinuteDebate
                             </h2>
+                            <div className="flex flex-wrap gap-1.5">
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    WebSockets
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Real-time
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Generative AI
+                                </span>
+                            </div>
                             <T>
                                 <p className="text-foreground text-xs">
                                     Built MinuteDebate, a real-time debating
@@ -506,6 +583,23 @@ export default async function HomePage({
                             <h2 className="font-medium text-muted-foreground text-xs">
                                 gsmt
                             </h2>
+                            <div className="flex flex-wrap gap-1.5">
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Next.js
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Three.js
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Tailwind CSS
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Framer Motion
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    GSAP
+                                </span>
+                            </div>
                             <T>
                                 <p className="text-foreground text-xs">
                                     Designed and developed gsmt as both my
@@ -567,6 +661,26 @@ export default async function HomePage({
                                     Developer Tools & UI Utilities
                                 </h2>
                             </T>
+                            <div className="flex flex-wrap gap-1.5">
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    TypeScript
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    React
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Electron
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Webpack
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Vite
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Open Source
+                                </span>
+                            </div>
                             <T>
                                 <p className="text-foreground text-xs">
                                     Built focused tools for developers such as
@@ -662,6 +776,20 @@ export default async function HomePage({
                                     Creative Coding & Simulations
                                 </h2>
                             </T>
+                            <div className="flex flex-wrap gap-1.5">
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Canvas
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    WebGL
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    GLSL
+                                </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Blender
+                                </span>
+                            </div>
                             <T>
                                 <p className="text-foreground text-xs">
                                     Created a range of creative coding
@@ -758,7 +886,7 @@ export default async function HomePage({
                     <React.Suspense
                         fallback={
                             <span className="text-[10px] text-muted-foreground/60">
-                                @ — GSMT. All rights reserved.
+                                <T>@ — GSMT. All rights reserved.</T>
                             </span>
                         }
                     >

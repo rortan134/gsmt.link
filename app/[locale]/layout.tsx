@@ -12,6 +12,14 @@ export const metadata: Metadata = {
     description: "",
     formatDetection: { address: false, telephone: false },
     metadataBase: new URL(WEBSITE_URL),
+    openGraph: {
+        description: "",
+        locale: "en_US",
+        siteName: "gsmt",
+        title: "Gilberto — Full-stack product developer",
+        type: "website",
+        url: "/",
+    },
     other: {
         "applicable-device": "pc,mobile",
         "msapplication-starturl": "/",
@@ -19,7 +27,16 @@ export const metadata: Metadata = {
     },
     referrer: "origin",
     robots: { noimageindex: true },
-    title: { default: "@gsmt", template: "%s | @gsmt" },
+    title: {
+        default: "Gilberto — Full-stack product developer",
+        template: "%s | @gsmt",
+    },
+    twitter: {
+        card: "summary",
+        creator: "@gsmmtt",
+        description: "",
+        title: "Gilberto — Full-stack product developer",
+    },
 };
 
 function LocaleLayout({ children }: React.PropsWithChildren) {
