@@ -49,7 +49,7 @@ async function PageViewsCounter() {
         <span
             className={cn(
                 "relative inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
-                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100"
+                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100",
             )}
             data-full-count={pageViewCount.toString()}
         >
@@ -67,7 +67,7 @@ function PageViewsCounterFallback() {
     return (
         <span
             className={cn(
-                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums"
+                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
             )}
         >
             <Eye aria-hidden className="mr-1 size-4" focusable="false" />
@@ -177,10 +177,7 @@ export default async function HomePage({
                             className="mr-3 size-4 opacity-50"
                             focusable="false"
                         />
-                        <span className="sr-only">
-                            <T>X (formerly Twitter)</T>
-                        </span>
-                        <T>Twitter</T>
+                        X/Twitter
                         <ArrowUpRight className="ml-1.5 size-3.5" />
                     </Link>
                     <Link
@@ -195,16 +192,10 @@ export default async function HomePage({
                             className="mr-3 size-4 opacity-50"
                             focusable="false"
                         />
-                        <span className="sr-only">
-                            <T>GitHub</T>
-                        </span>
-                        <T>GitHub</T>
+                        GitHub
                         <ArrowUpRight className="ml-1.5 size-3.5" />
                     </Link>
                 </div>
-                <span className="text-emerald-700 text-xs">
-                    <T>Available for work</T>
-                </span>
             </section>
             <section className="container mt-20 flex flex-col space-y-4">
                 <div className="flex items-center justify-between">
