@@ -24,7 +24,7 @@ const Timezone = () => {
     return (
         <section className="container mt-20 grid w-full gap-6 md:grid-cols-2">
             <div className="flex w-full flex-col space-y-2">
-                <h3 className="text-foreground text-sm">
+                <h3 className="truncate font-semibold text-muted-foreground text-xs">
                     <T>Your timezone</T>
                 </h3>
                 <div className="flex items-center justify-between rounded-xl border p-3">
@@ -50,7 +50,7 @@ const Timezone = () => {
                 </div>
             </div>
             <div className="flex w-full flex-col space-y-2">
-                <h3 className="text-foreground text-sm">
+                <h3 className="truncate font-semibold text-muted-foreground text-xs">
                     <T>My timezone</T>
                 </h3>
                 <div className="flex items-center justify-between rounded-xl border p-3">

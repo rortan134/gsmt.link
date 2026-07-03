@@ -1,7 +1,7 @@
 const Signature = () => (
     <svg
         aria-hidden
-        className="-mt-2.5 opacity-90"
+        className="-mt-2.5"
         fill="none"
         focusable="false"
         height="52"

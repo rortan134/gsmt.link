@@ -13,18 +13,3 @@ model Counter {
     id         Int @id @unique
     visitCount Int @default(0)
 }
-
-model UserMessage {
-    id       String    @id @unique
-    messages Message[]
-}
-
-model Message {
-    id            Int          @id @default(autoincrement())
-    content       String
-    createdAt     DateTime?    @default(now())
-    userMessage   UserMessage? @relation(fields: [userMessageId], references: [id], onDelete: Cascade)
-    userMessageId String?
-
-    @@index([userMessageId])
-}

@@ -25,10 +25,10 @@
         "clsx": "^2.1.1",
         "copy-to-clipboard": "^3.3.3",
         "dayjs": "^1.11.21",
-        "gt-next": "^6.16.35",
+        "gt-next": "^6.16.37",
         "lucide-react": "^0.577.0",
         "motion": "^12.42.2",
-        "next": "^16.2.9",
+        "next": "^16.3.0-preview.5",
         "postprocessing": "^6.39.2",
         "react": "19.2.7",
         "react-dom": "19.2.7",
@@ -45,10 +45,10 @@
         "@types/react": "^19.2.17",
         "@types/react-dom": "^19.2.3",
         "@types/three": "^0.183.1",
-        "gt": "^2.14.56",
+        "gt": "^2.14.58",
         "prisma": "^6.17.1",
         "tailwindcss": "^4.3.2",
         "typescript": "6.0.3",
-        "ultracite": "^7.8.3"
+        "ultracite": "^7.8.4"
     }
 }

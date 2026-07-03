@@ -49,7 +49,7 @@ async function PageViewsCounter() {
         <span
             className={cn(
                 "relative inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
-                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100",
+                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100"
             )}
             data-full-count={pageViewCount.toString()}
         >
@@ -67,7 +67,7 @@ function PageViewsCounterFallback() {
     return (
         <span
             className={cn(
-                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
+                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums"
             )}
         >
             <Eye aria-hidden className="mr-1 size-4" focusable="false" />
@@ -100,8 +100,8 @@ export default async function HomePage({
                 <Line className="-top-8" />
                 <Line className="-top-1.5" />
                 <Line className="top-8 w-11/12" />
-                <div className="flex flex-col gap-y-3">
-                    <h1 className="whitespace-nowrap font-medium font-serif text-foreground text-sm">
+                <div className="flex flex-col gap-y-4">
+                    <h1 className="whitespace-nowrap font-medium font-serif text-base text-foreground">
                         Gilberto
                     </h1>
                     <span className="whitespace-pre-wrap font-serif text-foreground text-xs">
@@ -197,7 +197,7 @@ export default async function HomePage({
                     </Link>
                 </div>
             </section>
-            <section className="container mt-20 flex flex-col space-y-4">
+            <section className="container mt-20 flex flex-col space-y-6">
                 <div className="flex items-center justify-between">
                     <h2 className="flex-1 truncate font-semibold text-muted-foreground text-xs">
                         <T>Today</T>
@@ -307,9 +307,19 @@ export default async function HomePage({
                 </T>
                 <T>
                     <p className="text-foreground text-sm">
-                        I frequently enjoy owning more of the product lifecycle
-                        with high-agency, including requirements, UX, traffic,
-                        and conversion with responsibility for market success.
+                        I take pride in often taking initiative and
+                        responsibility often for critical parts of a product,
+                        striving to push things forward. I believe that a strong
+                        focus on{" "}
+                        <Link
+                            className="underline"
+                            href="/fundamentals"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
+                            fundamentals
+                        </Link>{" "}
+                        leads to the greatest progress.
                     </p>
                 </T>
             </section>
@@ -329,7 +339,7 @@ export default async function HomePage({
                     <Carousel>
                         <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
                             <h2 className="font-medium text-muted-foreground text-xs">
-                                itemIQ
+                                ItemIQ
                             </h2>
                             <div className="flex flex-wrap gap-1.5">
                                 <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
@@ -408,7 +418,7 @@ export default async function HomePage({
                             </div>
                             <T>
                                 <p className="text-foreground text-xs">
-                                    Led development of Infactura, an online
+                                    Core development of Infactura, an online
                                     invoicing platform for freelancers and SMEs
                                     in Spain focused on compliant electronic
                                     invoicing, faster payments, and alignment
@@ -445,7 +455,7 @@ export default async function HomePage({
                         </div>
                         <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
                             <h2 className="font-medium text-muted-foreground text-xs">
-                                Cache
+                                Cache App
                             </h2>
                             <div className="flex flex-wrap gap-1.5">
                                 <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
@@ -478,26 +488,48 @@ export default async function HomePage({
                                     responsive.
                                 </p>
                             </T>
-                            <Link
-                                className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
-                                draggable={false}
-                                href="https://www.cachd.app"
-                                rel="noreferrer noopener"
-                                target="_blank"
-                            >
-                                <T>
-                                    <span>Visit project</span>
-                                </T>
-                                <ArrowUpRight
-                                    aria-hidden
-                                    className="mt-px inline-block size-3 opacity-80"
-                                    focusable="false"
-                                />
-                                <span
-                                    aria-hidden
-                                    className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
-                                />
-                            </Link>
+                            <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://www.cachd.app"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <T>
+                                        <span>Visit project</span>
+                                    </T>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                                <Link
+                                    className="relative flex w-fit items-center gap-x-1 text-muted-foreground text-xs hover:underline"
+                                    draggable={false}
+                                    href="https://github.com/rortan134/cache-app"
+                                    rel="noreferrer noopener"
+                                    target="_blank"
+                                >
+                                    <T>
+                                        <span>View source</span>
+                                    </T>
+                                    <ArrowUpRight
+                                        aria-hidden
+                                        className="mt-px inline-block size-3 opacity-80"
+                                        focusable="false"
+                                    />
+                                    <span
+                                        aria-hidden
+                                        className="absolute inset-0 top-1/2 left-1/2 h-11 w-[calc(100%+24px)] -translate-x-1/2 -translate-y-1/2"
+                                    />
+                                </Link>
+                            </div>
                         </div>
                         <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
                             <h2 className="font-medium text-muted-foreground text-xs">
@@ -572,7 +604,7 @@ export default async function HomePage({
                         </div>
                         <div className="flex h-max min-h-full flex-1 flex-col gap-y-4 p-4">
                             <h2 className="font-medium text-muted-foreground text-xs">
-                                gsmt
+                                gsmt.link
                             </h2>
                             <div className="flex flex-wrap gap-1.5">
                                 <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
