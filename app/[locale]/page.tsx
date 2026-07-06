@@ -35,7 +35,7 @@ import Link from "next/link";
 import * as React from "react";
 
 export const metadata: Metadata = {
-    title: "Gilberto — Full-stack developer",
+    title: "Gilberto S.",
 };
 
 export async function generateStaticParams() {
@@ -49,7 +49,7 @@ async function PageViewsCounter() {
         <span
             className={cn(
                 "relative inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
-                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100"
+                "after:pointer-events-none after:absolute after:-top-8 after:left-1/2 after:z-10 after:-translate-x-1/2 after:whitespace-nowrap after:rounded-md after:border after:border-border after:bg-background after:px-2.5 after:py-1 after:font-medium after:text-[11px] after:text-foreground after:opacity-0 after:shadow-sm after:transition-opacity after:duration-150 after:content-[attr(data-full-count)] hover:after:opacity-100 focus-visible:after:opacity-100",
             )}
             data-full-count={pageViewCount.toString()}
         >
@@ -67,7 +67,7 @@ function PageViewsCounterFallback() {
     return (
         <span
             className={cn(
-                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums"
+                "inline-flex items-center whitespace-nowrap font-serif text-muted-foreground text-xs tabular-nums",
             )}
         >
             <Eye aria-hidden className="mr-1 size-4" focusable="false" />
@@ -110,7 +110,7 @@ export default async function HomePage({
                             &nbsp;
                             <i className="mr-0.5">/ˈɡɪlbət/</i>{" "}
                             —&nbsp;full-stack developer,{" "}
-                            <span className="opacity-60">maker.</span>
+                            <span className="opacity-60">maker</span>
                         </T>
                     </span>
                     <Line className="-top-20 -right-4" variant="vertical" />
@@ -125,7 +125,7 @@ export default async function HomePage({
                 <Line className="-bottom-1.5" />
             </section>
             <section className="container mt-4.5">
-                <div className="group mb-1 flex flex-col items-center gap-3 md:flex-row">
+                <div className="group mb-1 flex flex-col items-center gap-4.5 md:flex-row">
                     <div className="relative flex h-fit w-full items-center md:w-fit">
                         <Link
                             className="flex h-9 w-full items-center justify-center whitespace-nowrap rounded-3xl border bg-transparent pr-11 pl-4 text-sm hover:opacity-100 active:opacity-50 group-hover:opacity-75 md:w-fit"
@@ -178,7 +178,6 @@ export default async function HomePage({
                             focusable="false"
                         />
                         X/Twitter
-                        <ArrowUpRight className="ml-1.5 size-3.5" />
                     </Link>
                     <Link
                         className="flex h-9 w-full items-center justify-center whitespace-nowrap rounded-3xl border bg-transparent px-4 text-sm hover:opacity-100 active:opacity-50 group-hover:opacity-75 md:w-fit"
@@ -193,7 +192,6 @@ export default async function HomePage({
                             focusable="false"
                         />
                         GitHub
-                        <ArrowUpRight className="ml-1.5 size-3.5" />
                     </Link>
                 </div>
             </section>
@@ -242,8 +240,7 @@ export default async function HomePage({
                 </div>
                 <T>
                     <p className="text-foreground text-sm">
-                        Developer at heart, passionate about building a better
-                        web,{" "}
+                        Developer at heart, passionate about{" "}
                         <TextHighlighter highlightColor="#FEFE6B">
                             creating great experiences
                         </TextHighlighter>{" "}
@@ -281,12 +278,8 @@ export default async function HomePage({
                         .
                         <br />
                         <br />
-                        Introduced to technology at a young age, I have been{" "}
-                        <TextHighlighter delay={3} highlightColor="#FEFE6B">
-                            building software for over 3 years
-                        </TextHighlighter>{" "}
-                        now. Playing with prototypes and doing everything from
-                        data scrapers{" "}
+                        Introduced to technology at a young age, I have been
+                        building software across data pipelines{" "}
                         <Braces
                             aria-hidden
                             className="inline-block size-4 opacity-50"
@@ -294,7 +287,7 @@ export default async function HomePage({
                         />
                         , dynamic websites and APIs, charmful native
                         applications, shaders, fractal simulations, data
-                        visualizations, engaging in-app experiences and more.
+                        visualizations, engaging in-app interactions and more.
                         Outside of programming, I enjoy doing photography and
                         traveling{" "}
                         <TicketsPlane
@@ -308,9 +301,8 @@ export default async function HomePage({
                 <T>
                     <p className="text-foreground text-sm">
                         I take pride in often taking initiative and
-                        responsibility often for critical parts of a product,
-                        striving to push things forward. I believe that a strong
-                        focus on{" "}
+                        responsibility for critical parts of a product, striving
+                        to push things forward. I believe that a strong focus on{" "}
                         <Link
                             className="underline"
                             href="/fundamentals"
@@ -346,7 +338,7 @@ export default async function HomePage({
                                     Python
                                 </span>
                                 <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
-                                    SP-API
+                                    Next.js
                                 </span>
                                 <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
                                     Redis
@@ -545,6 +537,9 @@ export default async function HomePage({
                                 <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
                                     Generative AI
                                 </span>
+                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
+                                    Convex
+                                </span>
                             </div>
                             <T>
                                 <p className="text-foreground text-xs">
@@ -618,9 +613,6 @@ export default async function HomePage({
                                 </span>
                                 <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
                                     Framer Motion
-                                </span>
-                                <span className="rounded-full border border-border bg-card px-2 py-0.5 font-medium text-[10px] text-muted-foreground">
-                                    GSAP
                                 </span>
                             </div>
                             <T>

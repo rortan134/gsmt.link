@@ -1,7 +1,5 @@
 // biome-ignore lint/style/noExportedImports: Intentional
 import dayjs from "dayjs";
-import "dayjs/locale/da";
-import "dayjs/locale/de";
 import "dayjs/locale/en";
 import "dayjs/locale/es";
 import advancedFormat from "dayjs/plugin/advancedFormat";

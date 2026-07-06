@@ -124,7 +124,7 @@ function clamp01(value: number): number {
 }
 
 function dropUnused(_reason: unknown): void {
-    return;
+    // no-op
 }
 
 function throttleToSonicPower(t: number): number {
