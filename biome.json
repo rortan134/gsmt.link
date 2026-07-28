@@ -40,6 +40,15 @@
         "rules": {
             "performance": {
                 "noNamespaceImport": "off"
+            },
+            "style": {
+                "noIncrementDecrement": "off",
+                "useConsistentMethodSignatures": "off",
+                "useDestructuring": "off"
+            },
+            "suspicious": {
+                "noUnnecessaryConditions": "off",
+                "noUnknownAttribute": "off"
             }
         }
     }

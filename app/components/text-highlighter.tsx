@@ -147,12 +147,18 @@ const TextHighlighter = ({
         WebkitBoxDecorationBreak: "clone",
     } as React.CSSProperties;
 
+    const handleMouseEnter = () =>
+        triggerType === "hover" && setIsHovered(true);
+
+    const handleMouseLeave = () =>
+        triggerType === "hover" && setIsHovered(false);
+
     return (
         // biome-ignore lint/a11y/noStaticElementInteractions: temp
         // biome-ignore lint/a11y/noNoninteractiveElementInteractions: temp
         <span
-            onMouseEnter={() => triggerType === "hover" && setIsHovered(true)}
-            onMouseLeave={() => triggerType === "hover" && setIsHovered(false)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             ref={componentRef}
             {...props}
         >
