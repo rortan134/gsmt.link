@@ -1,7 +1,7 @@
 {
     "$schema": "https://json.schemastore.org/tsconfig",
     "compilerOptions": {
-        "target": "es2022",
+        "target": "esnext",
         "moduleDetection": "force",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
@@ -9,6 +9,8 @@
         "strict": true,
         "noEmit": true,
         "esModuleInterop": true,
+        "removeComments": true,
+        "types": ["node", "bun", "react", "react-dom", "next"],
         "module": "esnext",
         "moduleResolution": "bundler",
         "resolveJsonModule": true,
@@ -23,10 +25,9 @@
         }
     },
     "include": [
-        "next-env.d.ts",
+        "*.d.ts",
         "**/*.ts",
         "**/*.tsx",
-        "**/*.mdx",
         ".next/types/**/*.ts",
         ".next/dev/types/**/*.ts"
     ],

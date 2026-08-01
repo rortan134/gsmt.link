@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/app/lib/cn";
-import { useLocaleSelector } from "gt-next/client";
+import { useLocaleSelector } from "gt-next";
 import { useRouter } from "next/navigation";
 
 const LocaleSelector = () => {

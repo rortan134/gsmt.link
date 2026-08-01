@@ -10,8 +10,8 @@ const CopyToClipboard = ({
 }: React.ComponentProps<typeof Slot> & { text: string }) => {
     const [copied, setCopied] = React.useState(false);
 
-    const copyHandler = () => {
-        copy(text);
+    const copyHandler = async () => {
+        await copy(text);
         setCopied(true);
         window.setTimeout(() => setCopied(false), 2000);
     };

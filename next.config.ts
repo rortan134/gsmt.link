@@ -1,7 +1,11 @@
 import { withGTConfig } from "gt-next/config";
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {};
+const nextConfig: NextConfig = {
+    experimental: {
+        useTypeScriptCli: true,
+    },
+};
 
 export default withGTConfig(nextConfig, {
     getLocalePath: "./get-locale.ts",

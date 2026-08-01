@@ -1,7 +1,9 @@
+import { cn } from "@/app/lib/cn";
 import { GTProvider } from "gt-next";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Inter, Source_Serif_4 } from "next/font/google";
 import type * as React from "react";
-import { Suspense } from "react";
+import "../globals.css";
 
 const WEBSITE_URL = "https://gsmt.link";
 
@@ -39,12 +41,33 @@ export const metadata: Metadata = {
     },
 };
 
-function LocaleLayout({ children }: React.PropsWithChildren) {
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const serif = Source_Serif_4({ subsets: ["latin"], variable: "--font-serif" });
+
+export const viewport: Viewport = {
+    colorScheme: "light",
+    initialScale: 1,
+    minimumScale: 1,
+    themeColor: "#ffffff",
+    viewportFit: "cover",
+    width: "device-width",
+};
+
+export default async function LocaleLayout(
+    props: React.PropsWithChildren<{
+        params: Promise<{ locale: string }>;
+    }>
+) {
+    const { locale } = await props.params;
+
     return (
-        <Suspense fallback={null}>
-            <GTProvider>{children}</GTProvider>
-        </Suspense>
+        <html dir="ltr" lang={locale} suppressHydrationWarning>
+            <body
+                className={cn("isolate pb-24", inter.className, serif.variable)}
+                style={{ colorScheme: "light" }}
+            >
+                <GTProvider>{props.children}</GTProvider>
+            </body>
+        </html>
     );
 }
-
-export default LocaleLayout;

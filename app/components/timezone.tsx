@@ -2,8 +2,7 @@
 
 import { Clock } from "@/app/components/clock";
 import { dayjs } from "@/app/lib/dayjs";
-import { T } from "gt-next";
-import { useLocaleSelector } from "gt-next/client";
+import { T, useLocaleSelector } from "gt-next";
 import * as React from "react";
 
 const BASE_TIMEZONE = "Europe/Madrid";
