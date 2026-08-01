@@ -3,6 +3,7 @@ import { GTProvider } from "gt-next";
 import type { Metadata, Viewport } from "next";
 import { Inter, Source_Serif_4 } from "next/font/google";
 import type * as React from "react";
+import "@blossom-carousel/react/style.css";
 import "../globals.css";
 
 const WEBSITE_URL = "https://gsmt.link";
